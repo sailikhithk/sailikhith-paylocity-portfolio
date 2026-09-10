@@ -112,8 +112,7 @@ export default function Hero() {
               TL;DR:
             </span>
             <span>
-              7+ YOE Staff/Senior MLE (Airbnb GenAI, Eli Lilly 21 CFR Part 11, SWA, Oracle). Driving
-              Paylocity Ignite AI platform reliability, Delta Lake data contracts, and MCP agents.
+              7+ YOE Staff/Senior MLE (Airbnb GenAI Platform, Oracle Fusion Cloud HCM & Payroll, Eli Lilly 21 CFR Part 11, SWA). Driving Paylocity Ignite AI platform reliability, Delta Lake data contracts, and MCP agents.
             </span>
           </div>
 

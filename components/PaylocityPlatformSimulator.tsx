@@ -73,7 +73,18 @@ export default function PaylocityPlatformSimulator() {
       phone: "+1 (860) 620-4718",
       ssn: "987-65-4321",
       experience_years: 7.2,
-      primary_skills: ["Python", "Databricks", "Delta Lake", "LangGraph", "Spark", "AWS", "Kafka", "Pydantic"],
+      primary_skills: [
+        "Python",
+        "Databricks",
+        "Delta Lake",
+        "LangGraph",
+        "Oracle Fusion HCM",
+        "Global Payroll",
+        "Spark",
+        "AWS",
+        "Kafka",
+        "Pydantic",
+      ],
       certifications: ["AWS SAP-C02", "GCP Data Engineer", "AWS MLS-C01"],
       semantic_score: 0.96,
       bm25_score: 0.94,
@@ -120,8 +131,8 @@ export default function PaylocityPlatformSimulator() {
             Paylocity Ignite AI Platform Live Simulator
           </h2>
           <p className="text-slate-400 text-sm sm:text-base mt-2">
-            Test real-time payroll anomaly inference and resume entity extraction with deterministic
-            PII guardrails.
+            Test real-time payroll anomaly inference (grounded in Oracle Fusion Time &amp; Labor to Payroll
+            physics) and resume entity extraction with deterministic PII guardrails.
           </p>
         </div>
 

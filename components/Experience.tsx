@@ -58,13 +58,14 @@ export default function Experience() {
     },
     {
       company: "Oracle",
-      role: "Software Engineer — ERP Analytics & Data Engineering",
+      role: "Software Engineer — ERP Analytics & Data Engineering (Fusion HCM)",
       period: "Aug 2017 – Jul 2019",
       location: "Bengaluru, India",
-      badge: "ERP & Analytics",
+      badge: "Fusion HCM & Payroll",
       highlights: [
-        "Engineered financial reconciliation pipelines and high-throughput transactional ETL jobs across enterprise ERP modules.",
-        "Optimized relational schema indexing and stored procedures, cutting month-end batch closing latency by 35%.",
+        "Implemented **Oracle Fusion Cloud HCM** modules (Global Payroll, Time & Labor, HCM Data Loader) across 200+ enterprise tenants.",
+        "Built automated ETL pipelines in Java and PL/SQL for high-volume **Worker, Assignment, and Element Entry** business objects.",
+        "Authored **Fast Formulas** for FLSA overtime thresholds and gross-to-net payroll reconciliations, reducing month-end closing latency by **35%**.",
       ],
     },
   ];
