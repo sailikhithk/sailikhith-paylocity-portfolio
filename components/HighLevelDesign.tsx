@@ -148,6 +148,12 @@ export default function HighLevelDesign() {
           ))}
         </div>
 
+        {/* ===== INTERACTIVE SVG ARCHITECTURE DIAGRAM ===== */}
+        <ArchitectureDiagram
+          selectedTier={selectedTier}
+          onTierClick={setSelectedTier}
+        />
+
         {/* Active Tier Deep Dive Card */}
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl">
           <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-slate-800">
