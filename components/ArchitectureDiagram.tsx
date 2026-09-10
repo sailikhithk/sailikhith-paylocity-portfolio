@@ -12,841 +12,705 @@ export default function ArchitectureDiagram({
   onTierClick,
 }: ArchitectureDiagramProps) {
   const isActive = (tier: number) => selectedTier === tier;
-  const laneOpacity = (tier: number) => (isActive(tier) ? 1 : 0.35);
+  const laneOpacity = (tier: number) => (isActive(tier) ? 1 : 0.4);
 
   return (
-    <div className="w-full overflow-x-auto mb-8 rounded-2xl border border-slate-800 bg-slate-950/60 p-4 sm:p-6">
+    <div className="w-full overflow-x-auto mb-10 rounded-2xl border border-slate-800 bg-[#070D18]/90 p-4 sm:p-6 shadow-2xl backdrop-blur-sm">
+      <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-800/80">
+        <div className="flex items-center space-x-3">
+          <div className="w-3 h-3 rounded-full bg-orange-500 animate-pulse" />
+          <h3 className="text-sm font-bold text-white tracking-wide uppercase font-mono">
+            Interactive System Flow Diagram · Paylocity Ignite AI Platform
+          </h3>
+        </div>
+        <div className="text-xs text-slate-400 font-mono hidden sm:block">
+          <span className="text-orange-400">Click any tier</span> to toggle architectural focus
+        </div>
+      </div>
+
       <svg
-        viewBox="0 0 1080 600"
-        className="w-full h-auto min-w-[720px]"
+        viewBox="0 0 1100 640"
+        className="w-full h-auto min-w-[840px]"
         xmlns="http://www.w3.org/2000/svg"
         role="img"
-        aria-label="FAST AI Platform 3-Tier Architecture Diagram"
+        aria-label="Paylocity Ignite AI Platform 3-Tier Architecture Diagram"
       >
-        {/* ========== LANE BACKGROUNDS ========== */}
-
-        {/* Lane 1: Edge & Ingestion (teal) */}
-        <g
-          onClick={() => onTierClick(1)}
-          className="cursor-pointer"
-          style={{ transition: "opacity 0.4s ease" }}
-          opacity={laneOpacity(1)}
-        >
-          <rect
-            x="155"
-            y="10"
-            width="260"
-            height="575"
-            rx="12"
-            fill="rgba(20,184,166,0.08)"
-            stroke="rgba(20,184,166,0.25)"
-            strokeWidth="1"
-          />
-          <text
-            x="285"
-            y="38"
-            textAnchor="middle"
-            fill="#14b8a6"
-            fontSize="13"
-            fontWeight="800"
-            letterSpacing="0.5"
-          >
-            Edge &amp; Ingestion
-          </text>
-          <text
-            x="285"
-            y="52"
-            textAnchor="middle"
-            fill="#5eead4"
-            fontSize="9"
-            fontWeight="500"
-            opacity="0.7"
-          >
-            Tier 1 · 4M req/min
-          </text>
-        </g>
-
-        {/* Lane 2: Compute & ML (amber) */}
-        <g
-          onClick={() => onTierClick(2)}
-          className="cursor-pointer"
-          style={{ transition: "opacity 0.4s ease" }}
-          opacity={laneOpacity(2)}
-        >
-          <rect
-            x="425"
-            y="10"
-            width="270"
-            height="575"
-            rx="12"
-            fill="rgba(245,158,11,0.07)"
-            stroke="rgba(245,158,11,0.25)"
-            strokeWidth="1"
-          />
-          <text
-            x="560"
-            y="38"
-            textAnchor="middle"
-            fill="#f59e0b"
-            fontSize="13"
-            fontWeight="800"
-            letterSpacing="0.5"
-          >
-            Compute &amp; ML
-          </text>
-          <text
-            x="560"
-            y="52"
-            textAnchor="middle"
-            fill="#fcd34d"
-            fontSize="9"
-            fontWeight="500"
-            opacity="0.7"
-          >
-            Tier 2 · 30+ LLMs
-          </text>
-        </g>
-
-        {/* Lane 3: Data & Presentation (purple) */}
-        <g
-          onClick={() => onTierClick(3)}
-          className="cursor-pointer"
-          style={{ transition: "opacity 0.4s ease" }}
-          opacity={laneOpacity(3)}
-        >
-          <rect
-            x="705"
-            y="10"
-            width="265"
-            height="575"
-            rx="12"
-            fill="rgba(139,92,246,0.07)"
-            stroke="rgba(139,92,246,0.25)"
-            strokeWidth="1"
-          />
-          <text
-            x="837"
-            y="38"
-            textAnchor="middle"
-            fill="#a78bfa"
-            fontSize="13"
-            fontWeight="800"
-            letterSpacing="0.5"
-          >
-            Data &amp; Presentation
-          </text>
-          <text
-            x="837"
-            y="52"
-            textAnchor="middle"
-            fill="#c4b5fd"
-            fontSize="9"
-            fontWeight="500"
-            opacity="0.7"
-          >
-            Tier 3 · 27PB Lakehouse
-          </text>
-        </g>
-
-        {/* ========== ACTOR ICONS (left side) ========== */}
-
-        {/* Actor 1: Mobile Users */}
-        <g opacity={isActive(1) ? 1 : 0.5} style={{ transition: "opacity 0.4s ease" }}>
-          {/* User group icon */}
-          <circle cx="45" cy="98" r="10" fill="none" stroke="#94a3b8" strokeWidth="1.5" />
-          <circle cx="45" cy="92" r="5" fill="#94a3b8" />
-          <path d="M 32 108 Q 45 118 58 108" fill="none" stroke="#94a3b8" strokeWidth="1.5" />
-          {/* Second person behind */}
-          <circle cx="60" cy="90" r="4" fill="#64748b" />
-          <path d="M 50 100 Q 60 108 70 100" fill="none" stroke="#64748b" strokeWidth="1" />
-          <text x="48" y="128" textAnchor="middle" fill="#cbd5e1" fontSize="10" fontWeight="700">
-            Mobile
-          </text>
-          <text x="48" y="140" textAnchor="middle" fill="#64748b" fontSize="9">
-            Users
-          </text>
-
-          {/* Phone icon */}
-          <rect
-            x="95"
-            y="87"
-            width="22"
-            height="34"
-            rx="3"
-            fill="none"
-            stroke="#94a3b8"
-            strokeWidth="1.2"
-          />
-          <line x1="103" y1="115" x2="110" y2="115" stroke="#94a3b8" strokeWidth="1" />
-          <rect x="99" y="92" width="14" height="16" rx="1" fill="rgba(148,163,184,0.15)" />
-        </g>
-
-        {/* Actor 2: Brand Partners */}
-        <g opacity={isActive(2) ? 1 : 0.5} style={{ transition: "opacity 0.4s ease" }}>
-          <circle cx="45" cy="268" r="10" fill="none" stroke="#94a3b8" strokeWidth="1.5" />
-          <circle cx="45" cy="262" r="5" fill="#94a3b8" />
-          <path d="M 32 278 Q 45 288 58 278" fill="none" stroke="#94a3b8" strokeWidth="1.5" />
-          <circle cx="60" cy="260" r="4" fill="#64748b" />
-          <path d="M 50 270 Q 60 278 70 270" fill="none" stroke="#64748b" strokeWidth="1" />
-          <text x="48" y="300" textAnchor="middle" fill="#cbd5e1" fontSize="10" fontWeight="700">
-            Brand
-          </text>
-          <text x="48" y="312" textAnchor="middle" fill="#64748b" fontSize="9">
-            Partners
-          </text>
-
-          {/* Monitor icon */}
-          <rect
-            x="93"
-            y="257"
-            width="28"
-            height="20"
-            rx="2"
-            fill="none"
-            stroke="#94a3b8"
-            strokeWidth="1.2"
-          />
-          <rect x="97" y="260" width="20" height="13" rx="1" fill="rgba(148,163,184,0.15)" />
-          <line x1="107" y1="277" x2="107" y2="283" stroke="#94a3b8" strokeWidth="1.2" />
-          <line x1="99" y1="283" x2="115" y2="283" stroke="#94a3b8" strokeWidth="1.2" />
-        </g>
-
-        {/* Actor 3: Analytics Team */}
-        <g opacity={isActive(3) ? 1 : 0.5} style={{ transition: "opacity 0.4s ease" }}>
-          <circle cx="45" cy="438" r="10" fill="none" stroke="#94a3b8" strokeWidth="1.5" />
-          <circle cx="45" cy="432" r="5" fill="#94a3b8" />
-          <path d="M 32 448 Q 45 458 58 448" fill="none" stroke="#94a3b8" strokeWidth="1.5" />
-          <circle cx="60" cy="430" r="4" fill="#64748b" />
-          <path d="M 50 440 Q 60 448 70 440" fill="none" stroke="#64748b" strokeWidth="1" />
-          <text x="48" y="470" textAnchor="middle" fill="#cbd5e1" fontSize="10" fontWeight="700">
-            Analytics
-          </text>
-          <text x="48" y="482" textAnchor="middle" fill="#64748b" fontSize="9">
-            Team
-          </text>
-
-          {/* Chart icon */}
-          <rect
-            x="93"
-            y="427"
-            width="28"
-            height="20"
-            rx="2"
-            fill="none"
-            stroke="#94a3b8"
-            strokeWidth="1.2"
-          />
-          <rect x="97" y="439" width="4" height="5" fill="#94a3b8" />
-          <rect x="103" y="434" width="4" height="10" fill="#94a3b8" />
-          <rect x="109" y="431" width="4" height="13" fill="#94a3b8" />
-        </g>
-
-        {/* ========== ACTOR TO LANE ARROWS ========== */}
-
-        {/* Mobile → Cloudflare */}
-        <line
-          x1="122"
-          y1="104"
-          x2="168"
-          y2="104"
-          stroke={isActive(1) ? "#14b8a6" : "#334155"}
-          strokeWidth="1.5"
-          markerEnd="url(#arrowTeal)"
-          style={{ transition: "stroke 0.4s ease" }}
-          opacity={isActive(1) ? 0.8 : 0.2}
-        />
-
-        {/* Partners → Kafka */}
-        <line
-          x1="122"
-          y1="270"
-          x2="168"
-          y2="270"
-          stroke={isActive(1) ? "#14b8a6" : "#334155"}
-          strokeWidth="1.5"
-          markerEnd="url(#arrowTeal)"
-          style={{ transition: "stroke 0.4s ease" }}
-          opacity={isActive(1) ? 0.8 : 0.2}
-        />
-
-        {/* Analytics → Lakehouse (long arrow to tier 3) */}
-        <line
-          x1="122"
-          y1="440"
-          x2="168"
-          y2="440"
-          stroke={isActive(3) ? "#a78bfa" : "#334155"}
-          strokeWidth="1.5"
-          markerEnd="url(#arrowPurple)"
-          style={{ transition: "stroke 0.4s ease" }}
-          opacity={isActive(3) ? 0.8 : 0.2}
-        />
-
-        {/* ========== DEFS: Arrow markers ========== */}
         <defs>
+          {/* Gradient definitions */}
+          <linearGradient id="tier1Grad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#FF5C00" stopOpacity="0.12" />
+            <stop offset="100%" stopColor="#FF5C00" stopOpacity="0.02" />
+          </linearGradient>
+          <linearGradient id="tier2Grad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#00D2FF" stopOpacity="0.12" />
+            <stop offset="100%" stopColor="#00D2FF" stopOpacity="0.02" />
+          </linearGradient>
+          <linearGradient id="tier3Grad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#10B981" stopOpacity="0.12" />
+            <stop offset="100%" stopColor="#10B981" stopOpacity="0.02" />
+          </linearGradient>
+
+          {/* Arrow markers */}
           <marker
-            id="arrowTeal"
-            viewBox="0 0 10 7"
-            refX="9"
-            refY="3.5"
-            markerWidth="8"
+            id="arrow-orange"
+            viewBox="0 0 10 10"
+            refX="6"
+            refY="5"
+            markerWidth="6"
             markerHeight="6"
-            orient="auto"
+            orient="auto-start-reverse"
           >
-            <path d="M 0 0 L 10 3.5 L 0 7 z" fill="#14b8a6" />
+            <path d="M 0 1 L 8 5 L 0 9 z" fill="#FF5C00" />
           </marker>
           <marker
-            id="arrowAmber"
-            viewBox="0 0 10 7"
-            refX="9"
-            refY="3.5"
-            markerWidth="8"
+            id="arrow-cyan"
+            viewBox="0 0 10 10"
+            refX="6"
+            refY="5"
+            markerWidth="6"
             markerHeight="6"
-            orient="auto"
+            orient="auto-start-reverse"
           >
-            <path d="M 0 0 L 10 3.5 L 0 7 z" fill="#f59e0b" />
+            <path d="M 0 1 L 8 5 L 0 9 z" fill="#00D2FF" />
           </marker>
           <marker
-            id="arrowPurple"
-            viewBox="0 0 10 7"
-            refX="9"
-            refY="3.5"
-            markerWidth="8"
+            id="arrow-emerald"
+            viewBox="0 0 10 10"
+            refX="6"
+            refY="5"
+            markerWidth="6"
             markerHeight="6"
-            orient="auto"
+            orient="auto-start-reverse"
           >
-            <path d="M 0 0 L 10 3.5 L 0 7 z" fill="#a78bfa" />
+            <path d="M 0 1 L 8 5 L 0 9 z" fill="#10B981" />
           </marker>
           <marker
-            id="arrowSlate"
-            viewBox="0 0 10 7"
-            refX="9"
-            refY="3.5"
-            markerWidth="8"
+            id="arrow-slate"
+            viewBox="0 0 10 10"
+            refX="6"
+            refY="5"
+            markerWidth="6"
             markerHeight="6"
-            orient="auto"
+            orient="auto-start-reverse"
           >
-            <path d="M 0 0 L 10 3.5 L 0 7 z" fill="#475569" />
+            <path d="M 0 1 L 8 5 L 0 9 z" fill="#64748B" />
           </marker>
         </defs>
 
-        {/* ========== TIER 1 COMPONENT BOXES (Teal) ========== */}
+        {/* ========== LEFT ACTORS PANEL ========== */}
+        <g>
+          <rect
+            x="10"
+            y="15"
+            width="135"
+            height="610"
+            rx="12"
+            fill="rgba(15,23,42,0.6)"
+            stroke="#1E293B"
+            strokeWidth="1"
+          />
+          <text
+            x="77"
+            y="42"
+            textAnchor="middle"
+            fill="#94A3B8"
+            fontSize="11"
+            fontWeight="800"
+            letterSpacing="0.8"
+            className="font-mono"
+          >
+            ENTERPRISE ACTORS
+          </text>
+          <line x1="20" y1="52" x2="135" y2="52" stroke="#334155" strokeWidth="1" strokeDasharray="3,3" />
+
+          {/* Actor 1: HR Admins & Payroll Ops */}
+          <g transform="translate(18, 75)">
+            <rect x="0" y="0" width="118" height="150" rx="8" fill="#0B1329" stroke="#334155" strokeWidth="1" />
+            <circle cx="59" cy="32" r="14" fill="rgba(255,92,0,0.15)" stroke="#FF5C00" strokeWidth="1.5" />
+            {/* User Icon */}
+            <path d="M 52 44 C 52 38, 66 38, 66 44" fill="none" stroke="#FF5C00" strokeWidth="1.5" />
+            <circle cx="59" cy="28" r="5" fill="#FF5C00" />
+            <text x="59" y="65" textAnchor="middle" fill="#FFFFFF" fontSize="11" fontWeight="700">
+              HR &amp; Payroll Ops
+            </text>
+            <text x="59" y="80" textAnchor="middle" fill="#FF8A3D" fontSize="9" fontWeight="600">
+              30,000+ Tenants
+            </text>
+            <text x="59" y="102" textAnchor="middle" fill="#94A3B8" fontSize="8">
+              Bulk Payroll Runs
+            </text>
+            <text x="59" y="115" textAnchor="middle" fill="#94A3B8" fontSize="8">
+              Direct Deposit Edits
+            </text>
+            <text x="59" y="128" textAnchor="middle" fill="#94A3B8" fontSize="8">
+              Tax Disbursements
+            </text>
+            <rect x="10" y="136" width="98" height="2" fill="#FF5C00" opacity="0.6" />
+          </g>
+
+          {/* Actor 2: Recruiters & Talent Acquisition */}
+          <g transform="translate(18, 250)">
+            <rect x="0" y="0" width="118" height="150" rx="8" fill="#0B1329" stroke="#334155" strokeWidth="1" />
+            <circle cx="59" cy="32" r="14" fill="rgba(0,210,255,0.15)" stroke="#00D2FF" strokeWidth="1.5" />
+            {/* Document / Candidate Icon */}
+            <rect x="52" y="22" width="14" height="18" rx="2" fill="none" stroke="#00D2FF" strokeWidth="1.5" />
+            <line x1="56" y1="27" x2="62" y2="27" stroke="#00D2FF" strokeWidth="1" />
+            <line x1="56" y1="32" x2="62" y2="32" stroke="#00D2FF" strokeWidth="1" />
+            <text x="59" y="65" textAnchor="middle" fill="#FFFFFF" fontSize="11" fontWeight="700">
+              Talent &amp; Recruiting
+            </text>
+            <text x="59" y="80" textAnchor="middle" fill="#38BDF8" fontSize="9" fontWeight="600">
+              Ignite AI Ingestion
+            </text>
+            <text x="59" y="102" textAnchor="middle" fill="#94A3B8" fontSize="8">
+              PDF Resumes
+            </text>
+            <text x="59" y="115" textAnchor="middle" fill="#94A3B8" fontSize="8">
+              Applicant Profiles
+            </text>
+            <text x="59" y="128" textAnchor="middle" fill="#94A3B8" fontSize="8">
+              RRF Job Matching
+            </text>
+            <rect x="10" y="136" width="98" height="2" fill="#00D2FF" opacity="0.6" />
+          </g>
+
+          {/* Actor 3: Employees & Timeclock */}
+          <g transform="translate(18, 425)">
+            <rect x="0" y="0" width="118" height="150" rx="8" fill="#0B1329" stroke="#334155" strokeWidth="1" />
+            <circle cx="59" cy="32" r="14" fill="rgba(16,185,129,0.15)" stroke="#10B981" strokeWidth="1.5" />
+            {/* Clock / Mobile Icon */}
+            <circle cx="59" cy="32" r="7" fill="none" stroke="#10B981" strokeWidth="1.5" />
+            <path d="M 59 29 L 59 32 L 62 34" fill="none" stroke="#10B981" strokeWidth="1.2" />
+            <text x="59" y="65" textAnchor="middle" fill="#FFFFFF" fontSize="11" fontWeight="700">
+              Employees (Mobile)
+            </text>
+            <text x="59" y="80" textAnchor="middle" fill="#34D399" fontSize="9" fontWeight="600">
+              Time &amp; Labor Mgmt
+            </text>
+            <text x="59" y="102" textAnchor="middle" fill="#94A3B8" fontSize="8">
+              Mobile Clock Punch
+            </text>
+            <text x="59" y="115" textAnchor="middle" fill="#94A3B8" fontSize="8">
+              W-2 Self-Service
+            </text>
+            <text x="59" y="128" textAnchor="middle" fill="#94A3B8" fontSize="8">
+              PTO Accrual Requests
+            </text>
+            <rect x="10" y="136" width="98" height="2" fill="#10B981" opacity="0.6" />
+          </g>
+        </g>
+
+        {/* ========== CONNECTIONS: ACTORS -> TIER 1 ========== */}
+        <path
+          d="M 136 150 L 175 150"
+          fill="none"
+          stroke="#FF5C00"
+          strokeWidth="2"
+          markerEnd="url(#arrow-orange)"
+        />
+        <path
+          d="M 136 325 L 175 325"
+          fill="none"
+          stroke="#00D2FF"
+          strokeWidth="2"
+          markerEnd="url(#arrow-cyan)"
+        />
+        <path
+          d="M 136 500 L 175 500"
+          fill="none"
+          stroke="#10B981"
+          strokeWidth="2"
+          markerEnd="url(#arrow-emerald)"
+        />
+
+        {/* ========== LANE 1: TIER 1 (INGESTION & PII BOUNDARY) ========== */}
         <g
           onClick={() => onTierClick(1)}
-          className="cursor-pointer"
-          style={{ transition: "opacity 0.4s ease" }}
+          className="cursor-pointer transition-opacity duration-300"
           opacity={laneOpacity(1)}
         >
-          {/* Cloudflare WAF */}
+          {/* Lane Box */}
           <rect
             x="175"
-            y="80"
-            width="225"
-            height="48"
-            rx="6"
-            fill="#0d9488"
-            stroke="#14b8a6"
-            strokeWidth="0.5"
+            y="15"
+            width="280"
+            height="610"
+            rx="12"
+            fill="url(#tier1Grad)"
+            stroke={isActive(1) ? "#FF5C00" : "rgba(255,92,0,0.3)"}
+            strokeWidth={isActive(1) ? "2" : "1"}
           />
-          <text x="287" y="101" textAnchor="middle" fill="#ffffff" fontSize="11" fontWeight="700">
-            Cloudflare Edge / WAF
+
+          {/* Lane Header */}
+          <rect x="185" y="25" width="260" height="42" rx="8" fill="#0B1329" stroke="#FF5C00" strokeWidth="1" />
+          <text x="315" y="44" textAnchor="middle" fill="#FF5C00" fontSize="12" fontWeight="800" letterSpacing="0.5">
+            TIER 1: INGESTION &amp; PII BOUNDARY
           </text>
-          <text x="287" y="118" textAnchor="middle" fill="rgba(255,255,255,0.65)" fontSize="9">
-            TLS · Anycast · DDoS Mitigation
+          <text x="315" y="58" textAnchor="middle" fill="#FFB088" fontSize="9" fontWeight="600">
+            Zero-Trust Gateway · Sub-12ms Presidio Sidecar
           </text>
 
-          {/* Kafka Bus */}
-          <rect
-            x="175"
-            y="195"
-            width="225"
-            height="48"
-            rx="6"
-            fill="#0d9488"
-            stroke="#14b8a6"
-            strokeWidth="0.5"
-          />
-          <text x="287" y="216" textAnchor="middle" fill="#ffffff" fontSize="11" fontWeight="700">
-            Kafka Ingestion Bus
-          </text>
-          <text x="287" y="233" textAnchor="middle" fill="rgba(255,255,255,0.65)" fontSize="9">
-            4M req/min · MSK · Partitioned
-          </text>
+          {/* Component 1: Envoy API Gateway */}
+          <g transform="translate(190, 80)">
+            <rect x="0" y="0" width="250" height="90" rx="8" fill="#0F172A" stroke="#334155" strokeWidth="1" />
+            <text x="14" y="24" fill="#FFFFFF" fontSize="12" fontWeight="700">
+              Envoy Multi-Tenant Gateway
+            </text>
+            <text x="14" y="42" fill="#94A3B8" fontSize="9">
+              • mTLS Client Certificates &amp; Auth0 JWT
+            </text>
+            <text x="14" y="57" fill="#94A3B8" fontSize="9">
+              • Tenant ID Header Validation &amp; Routing
+            </text>
+            <text x="14" y="72" fill="#FF8A3D" fontSize="9" fontWeight="600">
+              • Token-Bucket Rate Limiter (Per-Tenant SLA)
+            </text>
+            <circle cx="232" cy="20" r="4" fill="#FF5C00" />
+          </g>
 
-          {/* Circuit Breaker */}
-          <rect
-            x="175"
-            y="310"
-            width="225"
-            height="48"
-            rx="6"
-            fill="#0d9488"
-            stroke="#14b8a6"
-            strokeWidth="0.5"
-          />
-          <text x="287" y="331" textAnchor="middle" fill="#ffffff" fontSize="11" fontWeight="700">
-            Circuit Breaker / Rate Limiter
-          </text>
-          <text x="287" y="348" textAnchor="middle" fill="rgba(255,255,255,0.65)" fontSize="9">
-            Redis Token Bucket · Backpressure
-          </text>
+          {/* Connector inside Tier 1 */}
+          <line x1="315" y1="170" x2="315" y2="188" stroke="#FF5C00" strokeWidth="1.5" strokeDasharray="3,2" markerEnd="url(#arrow-orange)" />
 
-          {/* 202 Accepted badge */}
-          <rect
-            x="175"
-            y="415"
-            width="225"
-            height="38"
-            rx="6"
-            fill="rgba(20,184,166,0.12)"
-            stroke="rgba(20,184,166,0.3)"
-            strokeWidth="0.8"
-            strokeDasharray="4 2"
-          />
-          <text x="287" y="432" textAnchor="middle" fill="#5eead4" fontSize="9" fontWeight="600">
-            &lt; 45ms · 202 Accepted
-          </text>
-          <text x="287" y="446" textAnchor="middle" fill="#2dd4bf" fontSize="8" opacity="0.7">
-            Async event decoupling
-          </text>
+          {/* Component 2: Microsoft Presidio Sidecar */}
+          <g transform="translate(190, 190)">
+            <rect
+              x="0"
+              y="0"
+              width="250"
+              height="125"
+              rx="8"
+              fill="#0F172A"
+              stroke="#FF5C00"
+              strokeWidth="1.5"
+            />
+            <rect x="8" y="8" width="100" height="16" rx="4" fill="rgba(255,92,0,0.15)" />
+            <text x="14" y="20" fill="#FF5C00" fontSize="9" fontWeight="700" className="font-mono">
+              SUITE SECURITY
+            </text>
+            <text x="14" y="42" fill="#FFFFFF" fontSize="12" fontWeight="700">
+              Microsoft Presidio Sidecar
+            </text>
+            <text x="14" y="60" fill="#38BDF8" fontSize="9" fontWeight="600">
+              • Deterministic Regex + Small NER
+            </text>
+            <text x="14" y="75" fill="#94A3B8" fontSize="9">
+              • Direct Deposit ABA Routing Number Masking
+            </text>
+            <text x="14" y="90" fill="#94A3B8" fontSize="9">
+              • SSN, TIN, Phone, Personal Email Scrubber
+            </text>
+            <text x="14" y="107" fill="#34D399" fontSize="9" fontWeight="700">
+              ✓ Zero Network Call · P99 &lt; 12ms Latency
+            </text>
+          </g>
 
-          {/* Internal arrows: Cloudflare → Kafka */}
-          <line
-            x1="287"
-            y1="128"
-            x2="287"
-            y2="190"
-            stroke="#14b8a6"
-            strokeWidth="1.2"
-            markerEnd="url(#arrowTeal)"
-          />
-          {/* Kafka → Circuit Breaker */}
-          <line
-            x1="287"
-            y1="243"
-            x2="287"
-            y2="305"
-            stroke="#14b8a6"
-            strokeWidth="1.2"
-            markerEnd="url(#arrowTeal)"
-          />
+          {/* Connector */}
+          <line x1="315" y1="315" x2="315" y2="333" stroke="#FF5C00" strokeWidth="1.5" strokeDasharray="3,2" markerEnd="url(#arrow-orange)" />
+
+          {/* Component 3: Kafka Streaming Event Bus */}
+          <g transform="translate(190, 335)">
+            <rect x="0" y="0" width="250" height="110" rx="8" fill="#0F172A" stroke="#334155" strokeWidth="1" />
+            <text x="14" y="24" fill="#FFFFFF" fontSize="12" fontWeight="700">
+              Apache Kafka Event Mesh
+            </text>
+            <text x="14" y="42" fill="#FF8A3D" fontSize="9" fontWeight="600">
+              Keyed by Tenant UUID (Zero Cross-Talk):
+            </text>
+            <text x="14" y="58" fill="#94A3B8" fontSize="9" className="font-mono">
+              • payroll.raw_disbursement.v1
+            </text>
+            <text x="14" y="73" fill="#94A3B8" fontSize="9" className="font-mono">
+              • recruiting.resumes.sanitized.v1
+            </text>
+            <text x="14" y="88" fill="#94A3B8" fontSize="9" className="font-mono">
+              • time.shift_punches.v1
+            </text>
+          </g>
+
+          {/* Connector */}
+          <line x1="315" y1="445" x2="315" y2="463" stroke="#FF5C00" strokeWidth="1.5" strokeDasharray="3,2" markerEnd="url(#arrow-orange)" />
+
+          {/* Component 4: Schema Registry & DLQ */}
+          <g transform="translate(190, 465)">
+            <rect x="0" y="0" width="250" height="95" rx="8" fill="#0F172A" stroke="#334155" strokeWidth="1" />
+            <text x="14" y="24" fill="#FFFFFF" fontSize="12" fontWeight="700">
+              Schema Registry &amp; Dead-Letter Queue
+            </text>
+            <text x="14" y="42" fill="#94A3B8" fontSize="9">
+              • Confluent Avro / Pydantic Contract Enforcement
+            </text>
+            <text x="14" y="58" fill="#94A3B8" fontSize="9">
+              • Poison Pill Isolation &amp; Reprocessing Topic
+            </text>
+            <text x="14" y="74" fill="#38BDF8" fontSize="9" fontWeight="600">
+              • 100% Guaranteed Exactly-Once Semantics
+            </text>
+          </g>
+
+          {/* Tier 1 Footer Metric */}
+          <rect x="185" y="575" width="260" height="35" rx="6" fill="#0B1329" stroke="#334155" />
+          <text x="315" y="597" textAnchor="middle" fill="#34D399" fontSize="10" fontWeight="700">
+            SLA: 4,000,000 req/min · P99 &lt; 12ms · 99.9% Up
+          </text>
         </g>
 
-        {/* ========== TIER 2 COMPONENT BOXES (Amber) ========== */}
+        {/* ========== CONNECTIONS: TIER 1 -> TIER 2 ========== */}
+        <path
+          d="M 455 240 L 485 240"
+          fill="none"
+          stroke="#FF5C00"
+          strokeWidth="2"
+          markerEnd="url(#arrow-cyan)"
+        />
+        <path
+          d="M 455 385 L 485 385"
+          fill="none"
+          stroke="#00D2FF"
+          strokeWidth="2"
+          markerEnd="url(#arrow-cyan)"
+        />
+        <path
+          d="M 455 510 L 485 510"
+          fill="none"
+          stroke="#00D2FF"
+          strokeWidth="2"
+          markerEnd="url(#arrow-cyan)"
+        />
+
+        {/* ========== LANE 2: TIER 2 (DUAL-LAYER ML & STATE MACHINE) ========== */}
         <g
           onClick={() => onTierClick(2)}
-          className="cursor-pointer"
-          style={{ transition: "opacity 0.4s ease" }}
+          className="cursor-pointer transition-opacity duration-300"
           opacity={laneOpacity(2)}
         >
-          {/* FastAPI Workers */}
+          {/* Lane Box */}
           <rect
-            x="440"
-            y="80"
-            width="240"
-            height="48"
-            rx="6"
-            fill="#d97706"
-            stroke="#f59e0b"
-            strokeWidth="0.5"
+            x="485"
+            y="15"
+            width="280"
+            height="610"
+            rx="12"
+            fill="url(#tier2Grad)"
+            stroke={isActive(2) ? "#00D2FF" : "rgba(0,210,255,0.3)"}
+            strokeWidth={isActive(2) ? "2" : "1"}
           />
-          <text x="560" y="101" textAnchor="middle" fill="#ffffff" fontSize="11" fontWeight="700">
-            Async Python Workers
+
+          {/* Lane Header */}
+          <rect x="495" y="25" width="260" height="42" rx="8" fill="#0B1329" stroke="#00D2FF" strokeWidth="1" />
+          <text x="625" y="44" textAnchor="middle" fill="#00D2FF" fontSize="12" fontWeight="800" letterSpacing="0.5">
+            TIER 2: DUAL ML &amp; STATE MACHINE
           </text>
-          <text x="560" y="118" textAnchor="middle" fill="rgba(255,255,255,0.65)" fontSize="9">
-            FastAPI · asyncio · Pydantic V2
+          <text x="625" y="58" textAnchor="middle" fill="#7DD3FC" fontSize="9" fontWeight="600">
+            Triton / ONNX · LangGraph HITL State Machine
           </text>
 
-          {/* FacadeDriver */}
-          <rect
-            x="440"
-            y="195"
-            width="240"
-            height="48"
-            rx="6"
-            fill="#d97706"
-            stroke="#f59e0b"
-            strokeWidth="0.5"
-          />
-          <text x="560" y="216" textAnchor="middle" fill="#ffffff" fontSize="11" fontWeight="700">
-            Multi-Model FacadeDriver
-          </text>
-          <text x="560" y="233" textAnchor="middle" fill="rgba(255,255,255,0.65)" fontSize="9">
-            30+ LLMs · Bedrock · Azure · Vertex
-          </text>
+          {/* Component 1: Dual-Layer Anomaly Detector */}
+          <g transform="translate(500, 80)">
+            <rect
+              x="0"
+              y="0"
+              width="250"
+              height="115"
+              rx="8"
+              fill="#0F172A"
+              stroke={isActive(2) ? "#00D2FF" : "#334155"}
+              strokeWidth={isActive(2) ? "1.5" : "1"}
+            />
+            <text x="14" y="24" fill="#FFFFFF" fontSize="12" fontWeight="700">
+              Dual-Engine Anomaly Detector
+            </text>
+            <text x="14" y="44" fill="#38BDF8" fontSize="9" fontWeight="600">
+              1. 3-Sigma Rolling Z-Score (Stream Engine):
+            </text>
+            <text x="14" y="58" fill="#94A3B8" fontSize="9">
+              • Real-time peer baseline (hours, gross pay)
+            </text>
+            <text x="14" y="76" fill="#38BDF8" fontSize="9" fontWeight="600">
+              2. Isolation Forest + Autoencoder:
+            </text>
+            <text x="14" y="90" fill="#94A3B8" fontSize="9">
+              • Multivariate fraud &amp; 48hr bank account edits
+            </text>
+            <text x="14" y="105" fill="#34D399" fontSize="9" fontWeight="700">
+              ✓ 98.4% Precision · Explains via SHAP Vectors
+            </text>
+          </g>
 
-          {/* Semantic Cache */}
-          <rect
-            x="440"
-            y="310"
-            width="240"
-            height="48"
-            rx="6"
-            fill="#d97706"
-            stroke="#f59e0b"
-            strokeWidth="0.5"
-          />
-          <text x="560" y="331" textAnchor="middle" fill="#ffffff" fontSize="11" fontWeight="700">
-            Redis Semantic Cache
-          </text>
-          <text x="560" y="348" textAnchor="middle" fill="rgba(255,255,255,0.65)" fontSize="9">
-            38% hit rate · $180k/yr saved
-          </text>
+          {/* Connector */}
+          <line x1="625" y1="195" x2="625" y2="213" stroke="#00D2FF" strokeWidth="1.5" strokeDasharray="3,2" markerEnd="url(#arrow-cyan)" />
 
-          {/* Guardrails badge */}
-          <rect
-            x="440"
-            y="415"
-            width="240"
-            height="38"
-            rx="6"
-            fill="rgba(245,158,11,0.12)"
-            stroke="rgba(245,158,11,0.3)"
-            strokeWidth="0.8"
-            strokeDasharray="4 2"
-          />
-          <text x="560" y="432" textAnchor="middle" fill="#fbbf24" fontSize="9" fontWeight="600">
-            Queue(maxsize=100) · No OOM
-          </text>
-          <text x="560" y="446" textAnchor="middle" fill="#fcd34d" fontSize="8" opacity="0.7">
-            Bounded memory queues
-          </text>
+          {/* Component 2: Triton & ONNX Inference */}
+          <g transform="translate(500, 215)">
+            <rect x="0" y="0" width="250" height="110" rx="8" fill="#0F172A" stroke="#334155" strokeWidth="1" />
+            <text x="14" y="24" fill="#FFFFFF" fontSize="12" fontWeight="700">
+              Triton Inference Server (ONNX)
+            </text>
+            <text x="14" y="44" fill="#94A3B8" fontSize="9">
+              • BAAI/bge-large Dense Embeddings (768-dim)
+            </text>
+            <text x="14" y="59" fill="#94A3B8" fontSize="9">
+              • BM25 Sparse Inverted Index Tokenizer
+            </text>
+            <text x="14" y="74" fill="#FF8A3D" fontSize="9" fontWeight="600">
+              • Reciprocal Rank Fusion (RRF k=60)
+            </text>
+            <text x="14" y="94" fill="#34D399" fontSize="9" fontWeight="700">
+              ✓ P99 Inference Latency &lt; 20ms on GPU/vCPU
+            </text>
+          </g>
 
-          {/* Internal arrows */}
-          <line
-            x1="560"
-            y1="128"
-            x2="560"
-            y2="190"
-            stroke="#f59e0b"
-            strokeWidth="1.2"
-            markerEnd="url(#arrowAmber)"
-          />
-          <line
-            x1="560"
-            y1="243"
-            x2="560"
-            y2="305"
-            stroke="#f59e0b"
-            strokeWidth="1.2"
-            markerEnd="url(#arrowAmber)"
-          />
+          {/* Connector */}
+          <line x1="625" y1="325" x2="625" y2="343" stroke="#00D2FF" strokeWidth="1.5" strokeDasharray="3,2" markerEnd="url(#arrow-cyan)" />
+
+          {/* Component 3: LangGraph HITL State Machine */}
+          <g transform="translate(500, 345)">
+            <rect
+              x="0"
+              y="0"
+              width="250"
+              height="120"
+              rx="8"
+              fill="#0F172A"
+              stroke="#00D2FF"
+              strokeWidth="1.5"
+            />
+            <rect x="8" y="8" width="125" height="16" rx="4" fill="rgba(0,210,255,0.15)" />
+            <text x="14" y="20" fill="#00D2FF" fontSize="9" fontWeight="700" className="font-mono">
+              HITL CHECKPOINTER
+            </text>
+            <text x="14" y="42" fill="#FFFFFF" fontSize="12" fontWeight="700">
+              LangGraph StateGraph Agent
+            </text>
+            <text x="14" y="60" fill="#94A3B8" fontSize="9">
+              • Checkpointing via MemorySaver / Redis
+            </text>
+            <text x="14" y="76" fill="#F43F5E" fontSize="9" fontWeight="700">
+              • Conditional Interrupt-Before Gate (P &gt; 0.70)
+            </text>
+            <text x="14" y="92" fill="#94A3B8" fontSize="9">
+              • Generates cryptographic HR sign-off token
+            </text>
+            <text x="14" y="108" fill="#34D399" fontSize="9" fontWeight="700">
+              ✓ Zero Unauthorized Out-of-Band Disbursals
+            </text>
+          </g>
+
+          {/* Connector */}
+          <line x1="625" y1="465" x2="625" y2="483" stroke="#00D2FF" strokeWidth="1.5" strokeDasharray="3,2" markerEnd="url(#arrow-cyan)" />
+
+          {/* Component 4: FastMCP Tool Integration Gateway */}
+          <g transform="translate(500, 485)">
+            <rect x="0" y="0" width="250" height="85" rx="8" fill="#0F172A" stroke="#334155" strokeWidth="1" />
+            <text x="14" y="24" fill="#FFFFFF" fontSize="12" fontWeight="700">
+              FastMCP Tool Gateway
+            </text>
+            <text x="14" y="42" fill="#94A3B8" fontSize="9">
+              • Decoupled Core ERP &amp; Tax Disbursal Drivers
+            </text>
+            <text x="14" y="58" fill="#94A3B8" fontSize="9">
+              • Strict Pydantic v2 Schema Input Verification
+            </text>
+            <text x="14" y="74" fill="#38BDF8" fontSize="9" fontWeight="600">
+              • In-Memory Mocking Harness for Unit Testing
+            </text>
+          </g>
+
+          {/* Tier 2 Footer Metric */}
+          <rect x="495" y="575" width="260" height="35" rx="6" fill="#0B1329" stroke="#334155" />
+          <text x="625" y="597" textAnchor="middle" fill="#38BDF8" fontSize="10" fontWeight="700">
+            SLA: Anomaly P99 &lt; 25ms · 100% HITL Audit Trace
+          </text>
         </g>
 
-        {/* ========== TIER 3 COMPONENT BOXES (Purple) ========== */}
+        {/* ========== CONNECTIONS: TIER 2 -> TIER 3 ========== */}
+        <path
+          d="M 765 140 L 795 140"
+          fill="none"
+          stroke="#00D2FF"
+          strokeWidth="2"
+          markerEnd="url(#arrow-emerald)"
+        />
+        <path
+          d="M 765 270 L 795 270"
+          fill="none"
+          stroke="#10B981"
+          strokeWidth="2"
+          markerEnd="url(#arrow-emerald)"
+        />
+        <path
+          d="M 765 405 L 795 405"
+          fill="none"
+          stroke="#10B981"
+          strokeWidth="2"
+          markerEnd="url(#arrow-emerald)"
+        />
+
+        {/* ========== LANE 3: TIER 3 (LAKEHOUSE & FEATURE STORE) ========== */}
         <g
           onClick={() => onTierClick(3)}
-          className="cursor-pointer"
-          style={{ transition: "opacity 0.4s ease" }}
+          className="cursor-pointer transition-opacity duration-300"
           opacity={laneOpacity(3)}
         >
-          {/* 27PB Lakehouse */}
+          {/* Lane Box */}
           <rect
-            x="720"
-            y="80"
-            width="235"
-            height="48"
-            rx="6"
-            fill="#7c3aed"
-            stroke="#a78bfa"
-            strokeWidth="0.5"
+            x="795"
+            y="15"
+            width="280"
+            height="610"
+            rx="12"
+            fill="url(#tier3Grad)"
+            stroke={isActive(3) ? "#10B981" : "rgba(16,185,129,0.3)"}
+            strokeWidth={isActive(3) ? "2" : "1"}
           />
-          <text x="837" y="101" textAnchor="middle" fill="#ffffff" fontSize="11" fontWeight="700">
-            27PB Iceberg Lakehouse
-          </text>
-          <text x="837" y="118" textAnchor="middle" fill="rgba(255,255,255,0.65)" fontSize="9">
-            Trino · S3 · Analytical Engine
-          </text>
 
-          {/* SSE Stream */}
-          <rect
-            x="720"
-            y="195"
-            width="235"
-            height="48"
-            rx="6"
-            fill="#7c3aed"
-            stroke="#a78bfa"
-            strokeWidth="0.5"
-          />
-          <text x="837" y="216" textAnchor="middle" fill="#ffffff" fontSize="11" fontWeight="700">
-            SSE Token Stream
+          {/* Lane Header */}
+          <rect x="805" y="25" width="260" height="42" rx="8" fill="#0B1329" stroke="#10B981" strokeWidth="1" />
+          <text x="935" y="44" textAnchor="middle" fill="#10B981" fontSize="12" fontWeight="800" letterSpacing="0.5">
+            TIER 3: LAKEHOUSE &amp; FEATURE STORE
           </text>
-          <text x="837" y="233" textAnchor="middle" fill="rgba(255,255,255,0.65)" fontSize="9">
-            15s heartbeat · Redis replay buffer
+          <text x="935" y="58" textAnchor="middle" fill="#6EE7B7" fontSize="9" fontWeight="600">
+            Databricks Delta Lake · Feast + Redis Cluster
           </text>
 
-          {/* TanStack + Virtual Tables */}
-          <rect
-            x="720"
-            y="310"
-            width="235"
-            height="48"
-            rx="6"
-            fill="#7c3aed"
-            stroke="#a78bfa"
-            strokeWidth="0.5"
-          />
-          <text x="837" y="331" textAnchor="middle" fill="#ffffff" fontSize="11" fontWeight="700">
-            TanStack Query + Jotai
-          </text>
-          <text x="837" y="348" textAnchor="middle" fill="rgba(255,255,255,0.65)" fontSize="9">
-            60fps Virtual Tables · &lt;16ms INP
-          </text>
+          {/* Component 1: Databricks Delta Lake Medallion */}
+          <g transform="translate(810, 80)">
+            <rect
+              x="0"
+              y="0"
+              width="250"
+              height="120"
+              rx="8"
+              fill="#0F172A"
+              stroke={isActive(3) ? "#10B981" : "#334155"}
+              strokeWidth={isActive(3) ? "1.5" : "1"}
+            />
+            <text x="14" y="24" fill="#FFFFFF" fontSize="12" fontWeight="700">
+              Databricks Delta Lakehouse
+            </text>
+            <text x="14" y="44" fill="#F59E0B" fontSize="9" fontWeight="600">
+              • Bronze Layer: Raw Kafka Streams (Append-Only)
+            </text>
+            <text x="14" y="60" fill="#94A3B8" fontSize="9">
+              • Silver Layer: Cleaned Multi-Tenant Partitioned
+            </text>
+            <text x="14" y="76" fill="#10B981" fontSize="9" fontWeight="600">
+              • Gold Layer: Business Aggregates &amp; ML Baselines
+            </text>
+            <text x="14" y="94" fill="#38BDF8" fontSize="9" className="font-mono">
+              Partition Key: tenant_id, pay_period_year
+            </text>
+            <text x="14" y="108" fill="#34D399" fontSize="9" fontWeight="700">
+              ✓ ACID Transactions &amp; Time Travel Recovery
+            </text>
+          </g>
 
-          {/* DevEx badge */}
-          <rect
-            x="720"
-            y="415"
-            width="235"
-            height="38"
-            rx="6"
-            fill="rgba(139,92,246,0.12)"
-            stroke="rgba(139,92,246,0.3)"
-            strokeWidth="0.8"
-            strokeDasharray="4 2"
-          />
-          <text x="837" y="432" textAnchor="middle" fill="#c4b5fd" fontSize="9" fontWeight="600">
-            OpenAPI → Zod compile gate
-          </text>
-          <text x="837" y="446" textAnchor="middle" fill="#a78bfa" fontSize="8" opacity="0.7">
-            -65% network roundtrips
-          </text>
+          {/* Connector */}
+          <line x1="935" y1="200" x2="935" y2="218" stroke="#10B981" strokeWidth="1.5" strokeDasharray="3,2" markerEnd="url(#arrow-emerald)" />
 
-          {/* Internal arrows */}
-          <line
-            x1="837"
-            y1="128"
-            x2="837"
-            y2="190"
-            stroke="#a78bfa"
-            strokeWidth="1.2"
-            markerEnd="url(#arrowPurple)"
-          />
-          <line
-            x1="837"
-            y1="243"
-            x2="837"
-            y2="305"
-            stroke="#a78bfa"
-            strokeWidth="1.2"
-            markerEnd="url(#arrowPurple)"
-          />
-        </g>
+          {/* Component 2: Redis Online Feature Store */}
+          <g transform="translate(810, 220)">
+            <rect
+              x="0"
+              y="0"
+              width="250"
+              height="115"
+              rx="8"
+              fill="#0F172A"
+              stroke="#10B981"
+              strokeWidth="1.5"
+            />
+            <rect x="8" y="8" width="110" height="16" rx="4" fill="rgba(16,185,129,0.15)" />
+            <text x="14" y="20" fill="#10B981" fontSize="9" fontWeight="700" className="font-mono">
+              ONLINE SERVING
+            </text>
+            <text x="14" y="42" fill="#FFFFFF" fontSize="12" fontWeight="700">
+              Redis Cluster Feature Store
+            </text>
+            <text x="14" y="60" fill="#94A3B8" fontSize="9">
+              • Key: tenant:{`{tenant_id}`}:emp:{`{emp_id}`}
+            </text>
+            <text x="14" y="75" fill="#94A3B8" fontSize="9">
+              • Historical 7-day rolling mean &amp; stddev
+            </text>
+            <text x="14" y="90" fill="#94A3B8" fontSize="9">
+              • Peer group salary percentiles &amp; tenure
+            </text>
+            <text x="14" y="107" fill="#34D399" fontSize="9" fontWeight="700">
+              ✓ Sub-5ms Read Latency · Zero Training Skew
+            </text>
+          </g>
 
-        {/* ========== CROSS-LANE ARROWS ========== */}
+          {/* Connector */}
+          <line x1="935" y1="335" x2="935" y2="353" stroke="#10B981" strokeWidth="1.5" strokeDasharray="3,2" markerEnd="url(#arrow-emerald)" />
 
-        {/* Tier 1 → Tier 2: Cloudflare → FastAPI Workers */}
-        <line
-          x1="400"
-          y1="104"
-          x2="435"
-          y2="104"
-          stroke={isActive(1) || isActive(2) ? "#94a3b8" : "#1e293b"}
-          strokeWidth="1.5"
-          markerEnd="url(#arrowSlate)"
-          opacity={isActive(1) || isActive(2) ? 0.7 : 0.15}
-          style={{ transition: "opacity 0.4s ease, stroke 0.4s ease" }}
-        />
+          {/* Component 3: Feast Offline Feature Sync */}
+          <g transform="translate(810, 355)">
+            <rect x="0" y="0" width="250" height="95" rx="8" fill="#0F172A" stroke="#334155" strokeWidth="1" />
+            <text x="14" y="24" fill="#FFFFFF" fontSize="12" fontWeight="700">
+              Feast Feature Store Sync
+            </text>
+            <text x="14" y="42" fill="#94A3B8" fontSize="9">
+              • Point-In-Time Correct Joins for Retraining
+            </text>
+            <text x="14" y="58" fill="#94A3B8" fontSize="9">
+              • Automated Feature Drift Alerting via Evidently AI
+            </text>
+            <text x="14" y="74" fill="#38BDF8" fontSize="9" fontWeight="600">
+              • Dual Offline/Online Unified Definition
+            </text>
+          </g>
 
-        {/* Tier 1 → Tier 2: Kafka → FacadeDriver */}
-        <line
-          x1="400"
-          y1="219"
-          x2="435"
-          y2="219"
-          stroke={isActive(1) || isActive(2) ? "#94a3b8" : "#1e293b"}
-          strokeWidth="1.5"
-          markerEnd="url(#arrowSlate)"
-          opacity={isActive(1) || isActive(2) ? 0.7 : 0.15}
-          style={{ transition: "opacity 0.4s ease, stroke 0.4s ease" }}
-        />
+          {/* Connector */}
+          <line x1="935" y1="450" x2="935" y2="468" stroke="#10B981" strokeWidth="1.5" strokeDasharray="3,2" markerEnd="url(#arrow-emerald)" />
 
-        {/* Tier 1 → Tier 2: Circuit Breaker → Semantic Cache */}
-        <line
-          x1="400"
-          y1="334"
-          x2="435"
-          y2="334"
-          stroke={isActive(1) || isActive(2) ? "#94a3b8" : "#1e293b"}
-          strokeWidth="1.5"
-          markerEnd="url(#arrowSlate)"
-          opacity={isActive(1) || isActive(2) ? 0.7 : 0.15}
-          style={{ transition: "opacity 0.4s ease, stroke 0.4s ease" }}
-        />
+          {/* Component 4: Compliance & Audit Vault */}
+          <g transform="translate(810, 470)">
+            <rect x="0" y="0" width="250" height="100" rx="8" fill="#0F172A" stroke="#334155" strokeWidth="1" />
+            <text x="14" y="24" fill="#FFFFFF" fontSize="12" fontWeight="700">
+              SOC-2 &amp; Compliance Audit Vault
+            </text>
+            <text x="14" y="42" fill="#94A3B8" fontSize="9">
+              • Immutable Hash Chains (21 CFR Part 11 / SOC-2)
+            </text>
+            <text x="14" y="58" fill="#94A3B8" fontSize="9">
+              • Full SHAP Driver &amp; Explanations Persistence
+            </text>
+            <text x="14" y="74" fill="#F59E0B" fontSize="9" fontWeight="600">
+              • Cryptographic Signature for Every Disbursement
+            </text>
+            <text x="14" y="90" fill="#34D399" fontSize="9" fontWeight="700">
+              ✓ 7-Year Audit Trail Retention Guaranteed
+            </text>
+          </g>
 
-        {/* Tier 2 → Tier 3: FastAPI → Lakehouse */}
-        <line
-          x1="680"
-          y1="104"
-          x2="715"
-          y2="104"
-          stroke={isActive(2) || isActive(3) ? "#94a3b8" : "#1e293b"}
-          strokeWidth="1.5"
-          markerEnd="url(#arrowSlate)"
-          opacity={isActive(2) || isActive(3) ? 0.7 : 0.15}
-          style={{ transition: "opacity 0.4s ease, stroke 0.4s ease" }}
-        />
-
-        {/* Tier 2 → Tier 3: FacadeDriver → SSE */}
-        <line
-          x1="680"
-          y1="219"
-          x2="715"
-          y2="219"
-          stroke={isActive(2) || isActive(3) ? "#94a3b8" : "#1e293b"}
-          strokeWidth="1.5"
-          markerEnd="url(#arrowSlate)"
-          opacity={isActive(2) || isActive(3) ? 0.7 : 0.15}
-          style={{ transition: "opacity 0.4s ease, stroke 0.4s ease" }}
-        />
-
-        {/* Tier 2 → Tier 3: Cache → TanStack */}
-        <line
-          x1="680"
-          y1="334"
-          x2="715"
-          y2="334"
-          stroke={isActive(2) || isActive(3) ? "#94a3b8" : "#1e293b"}
-          strokeWidth="1.5"
-          markerEnd="url(#arrowSlate)"
-          opacity={isActive(2) || isActive(3) ? 0.7 : 0.15}
-          style={{ transition: "opacity 0.4s ease, stroke 0.4s ease" }}
-        />
-
-        {/* Diagonal: Kafka → FastAPI (async consume label) */}
-        <g
-          opacity={isActive(1) || isActive(2) ? 0.65 : 0.1}
-          style={{ transition: "opacity 0.4s ease" }}
-        >
-          <line
-            x1="400"
-            y1="230"
-            x2="435"
-            y2="104"
-            stroke="#94a3b8"
-            strokeWidth="1"
-            strokeDasharray="5 3"
-            markerEnd="url(#arrowSlate)"
-          />
-          <text
-            x="420"
-            y="158"
-            fill="#94a3b8"
-            fontSize="7"
-            fontStyle="italic"
-            transform="rotate(-50, 420, 158)"
-          >
-            async
+          {/* Tier 3 Footer Metric */}
+          <rect x="805" y="575" width="260" height="35" rx="6" fill="#0B1329" stroke="#334155" />
+          <text x="935" y="597" textAnchor="middle" fill="#10B981" fontSize="10" fontWeight="700">
+            SLA: Sub-5ms Online Lookup · Petabyte Scale
           </text>
         </g>
-
-        {/* Diagonal: FacadeDriver → Lakehouse */}
-        <g
-          opacity={isActive(2) || isActive(3) ? 0.65 : 0.1}
-          style={{ transition: "opacity 0.4s ease" }}
-        >
-          <line
-            x1="680"
-            y1="230"
-            x2="715"
-            y2="104"
-            stroke="#94a3b8"
-            strokeWidth="1"
-            strokeDasharray="5 3"
-            markerEnd="url(#arrowSlate)"
-          />
-          <text
-            x="700"
-            y="158"
-            fill="#94a3b8"
-            fontSize="7"
-            fontStyle="italic"
-            transform="rotate(-50, 700, 158)"
-          >
-            query
-          </text>
-        </g>
-
-        {/* Analytics → Lakehouse (long diagonal) */}
-        <g opacity={isActive(3) ? 0.65 : 0.1} style={{ transition: "opacity 0.4s ease" }}>
-          <line
-            x1="170"
-            y1="440"
-            x2="715"
-            y2="104"
-            stroke="#a78bfa"
-            strokeWidth="1"
-            strokeDasharray="6 3"
-            markerEnd="url(#arrowPurple)"
-          />
-        </g>
-
-        {/* ========== FLOW LABELS ========== */}
-
-        {/* Label: between lane 1 and 2 */}
-        <g
-          opacity={isActive(1) || isActive(2) ? 0.8 : 0.15}
-          style={{ transition: "opacity 0.4s ease" }}
-        >
-          <rect
-            x="402"
-            y="490"
-            width="30"
-            height="40"
-            rx="4"
-            fill="rgba(148,163,184,0.08)"
-            stroke="rgba(148,163,184,0.2)"
-            strokeWidth="0.5"
-          />
-          <text x="417" y="506" textAnchor="middle" fill="#94a3b8" fontSize="7" fontWeight="600">
-            async
-          </text>
-          <text x="417" y="520" textAnchor="middle" fill="#94a3b8" fontSize="7" fontWeight="600">
-            consume
-          </text>
-        </g>
-
-        {/* Label: between lane 2 and 3 */}
-        <g
-          opacity={isActive(2) || isActive(3) ? 0.8 : 0.15}
-          style={{ transition: "opacity 0.4s ease" }}
-        >
-          <rect
-            x="683"
-            y="490"
-            width="30"
-            height="40"
-            rx="4"
-            fill="rgba(148,163,184,0.08)"
-            stroke="rgba(148,163,184,0.2)"
-            strokeWidth="0.5"
-          />
-          <text x="698" y="506" textAnchor="middle" fill="#94a3b8" fontSize="7" fontWeight="600">
-            SSE
-          </text>
-          <text x="698" y="520" textAnchor="middle" fill="#94a3b8" fontSize="7" fontWeight="600">
-            stream
-          </text>
-        </g>
-
-        {/* ========== BRAND MARKERS ========== */}
-
-        {/* PepsiCo / Unilever / CPG label under Brand Partners */}
-        <g opacity={isActive(2) ? 0.8 : 0.3} style={{ transition: "opacity 0.4s ease" }}>
-          <text x="48" y="328" textAnchor="middle" fill="#64748b" fontSize="7.5" fontStyle="italic">
-            PepsiCo · Unilever
-          </text>
-          <text x="48" y="340" textAnchor="middle" fill="#64748b" fontSize="7.5" fontStyle="italic">
-            CPG · Brands
-          </text>
-        </g>
-
-        {/* Bottom hint */}
-        <text x="540" y="570" textAnchor="middle" fill="#475569" fontSize="9">
-          Click a column to highlight · Architecture syncs with detail panel below
-        </text>
       </svg>
+
+      {/* Interactive Diagram Helper Footer */}
+      <div className="mt-4 pt-3 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400 font-mono">
+        <div className="flex items-center space-x-4">
+          <span className="flex items-center gap-1.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#FF5C00]" /> Tier 1: Ingestion &amp; PII
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#00D2FF]" /> Tier 2: Dual ML &amp; HITL
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#10B981]" /> Tier 3: Lakehouse &amp; Features
+          </span>
+        </div>
+        <div className="text-slate-400">
+          Currently Focusing:{" "}
+          <span className="text-orange-400 font-bold">
+            Tier {selectedTier}: {selectedTier === 1 ? "Ingestion & PII" : selectedTier === 2 ? "Dual ML & Agents" : "Lakehouse & Features"}
+          </span>
+        </div>
+      </div>
     </div>
   );
 }
