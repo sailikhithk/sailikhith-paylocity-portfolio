@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 320" width="100%" height="100%">
+  <defs>
+    <style>
+      .font-sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+      .font-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+      .glow-emerald { filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.45)); }
+      .glow-rose { filter: drop-shadow(0 0 10px rgba(244, 63, 94, 0.55)); }
+      .glow-amber { filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.35)); }
+    </style>
+
+    <!-- Linear Gradients -->
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#070D18" />
+      <stop offset="50%" stop-color="#0A1224" />
+      <stop offset="100%" stop-color="#050811" />
+    </linearGradient>
+
+    <linearGradient id="node-base" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#0F172A" stop-opacity="0.95" />
+    </linearGradient>
+
+    <linearGradient id="diamond-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#78350F" stop-opacity="0.8" />
+      <stop offset="50%" stop-color="#451A03" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#1E1B4B" stop-opacity="0.85" />
+    </linearGradient>
+
+    <linearGradient id="allow-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#065F46" />
+      <stop offset="100%" stop-color="#022C22" />
+    </linearGradient>
+
+    <linearGradient id="throttle-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9F1239" />
+      <stop offset="100%" stop-color="#4C0519" />
+    </linearGradient>
+
+    <!-- Markers -->
+    <marker id="arrow-neutral" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#64748B" />
+    </marker>
+    <marker id="arrow-emerald" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981" />
+    </marker>
+    <marker id="arrow-rose" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#F43F5E" />
+    </marker>
+  </defs>
+
+  <!-- Canvas Container -->
+  <rect width="880" height="320" rx="16" fill="url(#bg-grad)" stroke="#1E293B" stroke-width="1.5" />
+
+  <!-- Subtle Blueprint Grid Pattern -->
+  <g opacity="0.06" stroke="#FFFFFF" stroke-width="1">
+    <line x1="0" y1="40" x2="880" y2="40" stroke-dasharray="4 4" />
+    <line x1="0" y1="80" x2="880" y2="80" stroke-dasharray="4 4" />
+    <line x1="0" y1="120" x2="880" y2="120" stroke-dasharray="4 4" />
+    <line x1="0" y1="160" x2="880" y2="160" stroke-dasharray="4 4" />
+    <line x1="0" y1="200" x2="880" y2="200" stroke-dasharray="4 4" />
+    <line x1="0" y1="240" x2="880" y2="240" stroke-dasharray="4 4" />
+    <line x1="0" y1="280" x2="880" y2="280" stroke-dasharray="4 4" />
+  </g>
+
+  <!-- Title Header Bar -->
+  <g transform="translate(24, 28)">
+    <text x="0" y="0" fill="#F59E0B" class="font-mono" font-size="11" font-weight="700" letter-spacing="1">ALGORITHM FLOWCHART · REDIS ZSET SLIDING WINDOW</text>
+    <text x="530" y="0" fill="#94A3B8" class="font-mono" font-size="11">Active State: <tspan fill="#F43F5E" font-weight="bold">THROTTLED (429)</tspan></text>
+  </g>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- CONNECTIONS / EDGES -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+
+  <!-- Node 1 -> Node 2 -->
+  <path d="M 160 160 L 195 160" stroke="#64748B" stroke-width="2.2" marker-end="url(#arrow-neutral)" />
+
+  <!-- Node 2 -> Decision Diamond -->
+  <path d="M 380 160 L 415 160" stroke="#64748B" stroke-width="2.2" marker-end="url(#arrow-neutral)" />
+
+  <!-- Decision Diamond -> YES Branch (Upper - Allowed) -->
+  <!-- Dimmed when Throttled -->
+  <path d="M 485 112 L 485 82 Q 485 72 500 72 L 640 72" stroke="#10B981" stroke-width="1.8" stroke-dasharray="4 3" fill="none" opacity="0.4" marker-end="url(#arrow-emerald)" />
+
+  <!-- Decision Diamond -> NO Branch (Lower - Throttled) -->
+  <!-- Active glowing crimson path -->
+  <path d="M 485 208 L 485 238 Q 485 248 500 248 L 640 248" stroke="#F43F5E" stroke-width="2.8" fill="none" class="glow-rose" marker-end="url(#arrow-rose)" />
+
+  <!-- Branch Label Pill YES -->
+  <g transform="translate(505, 60)" opacity="0.65">
+    <rect width="116" height="24" rx="6" fill="#031A14" stroke="#10B981" stroke-width="1.4" />
+    <text x="58" y="16" fill="#34D399" class="font-mono" font-size="10" font-weight="700" text-anchor="middle">YES (Count &lt; Max)</text>
+  </g>
+
+  <!-- Branch Label Pill NO (Active) -->
+  <g transform="translate(505, 236)" class="glow-rose">
+    <rect width="116" height="24" rx="6" fill="#4C0519" stroke="#F43F5E" stroke-width="1.4" />
+    <text x="58" y="16" fill="#FDA4AF" class="font-mono" font-size="10" font-weight="700" text-anchor="middle">NO (Rate Exceeded)</text>
+  </g>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- FLOW NODES -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+
+  <!-- 1. INBOUND REQUEST NODE -->
+  <g transform="translate(24, 120)">
+    <rect width="136" height="80" rx="12" fill="url(#node-base)" stroke="#F59E0B" stroke-width="1.6" class="glow-amber" />
+    <rect x="10" y="12" width="70" height="18" rx="4" fill="#F59E0B" fill-opacity="0.15" />
+    <text x="45" y="24" fill="#FBBF24" class="font-mono" font-size="9.5" font-weight="700" text-anchor="middle">1. INBOUND</text>
+    <text x="12" y="47" fill="#FFFFFF" class="font-sans" font-size="14" font-weight="800">Upload Event</text>
+    <text x="12" y="66" fill="#F59E0B" class="font-mono" font-size="12" font-weight="700">T = 64s</text>
+  </g>
+
+  <!-- 2. PRUNE & WINDOW EVALUATION -->
+  <g transform="translate(195, 115)">
+    <rect width="185" height="90" rx="12" fill="url(#node-base)" stroke="#38BDF8" stroke-width="1.6" />
+    <rect x="10" y="12" width="110" height="18" rx="4" fill="#0284C7" fill-opacity="0.15" />
+    <text x="65" y="24" fill="#38BDF8" class="font-mono" font-size="9.5" font-weight="700" text-anchor="middle">2. ATOMIC PIPELINE</text>
+    <text x="12" y="46" fill="#E2E8F0" class="font-mono" font-size="11" font-weight="600">ZREMRANGEBYSCORE</text>
+    <text x="12" y="62" fill="#94A3B8" class="font-mono" font-size="10">Drop &lt; 14s (W=50s)</text>
+    <text x="12" y="78" fill="#38BDF8" class="font-mono" font-size="11" font-weight="700">Active ZSET Count: 4</text>
+  </g>
+
+  <!-- 3. DECISION DIAMOND -->
+  <g transform="translate(485, 160)">
+    <!-- Diamond Shape -->
+    <polygon points="0,-48 70,0 0,48 -70,0" fill="url(#diamond-grad)" stroke="#F59E0B" stroke-width="2.2" class="glow-amber" />
+    <text x="0" y="-12" fill="#FDE68A" class="font-mono" font-size="10" font-weight="700" text-anchor="middle" letter-spacing="0.5">3. EVALUATE</text>
+    <text x="0" y="9" fill="#FFFFFF" class="font-mono" font-size="14" font-weight="900" text-anchor="middle">4 &lt; 4 ?</text>
+    <text x="0" y="24" fill="#F59E0B" class="font-mono" font-size="9" font-weight="600" text-anchor="middle">Count &lt; Max</text>
+  </g>
+
+  <!-- 4A. TERMINAL OUTCOME: ACCEPTED (202) -->
+  <!-- Dimmed when Throttled -->
+  <g transform="translate(640, 47)" opacity="0.35">
+    <rect width="216" height="70" rx="12" fill="url(#allow-grad)" stroke="#10B981" stroke-width="1.4" />
+    <rect x="12" y="10" width="80" height="16" rx="4" fill="#10B981" fill-opacity="0.2" />
+    <text x="52" y="22" fill="#34D399" class="font-mono" font-size="9" font-weight="700" text-anchor="middle">4A. ENQUEUE</text>
+    <text x="12" y="44" fill="#FFFFFF" class="font-sans" font-size="14" font-weight="800">202 Accepted</text>
+    <text x="12" y="60" fill="#A7F3D0" class="font-mono" font-size="10.5">ZADD(now) → Kafka Bus</text>
+  </g>
+
+  <!-- 4B. TERMINAL OUTCOME: THROTTLED (429) -->
+  <!-- Active Vibrant Warning Node -->
+  <g transform="translate(640, 213)" class="glow-rose">
+    <rect width="216" height="70" rx="12" fill="url(#throttle-grad)" stroke="#F43F5E" stroke-width="2.2" />
+    <rect x="12" y="10" width="76" height="16" rx="4" fill="#F43F5E" fill-opacity="0.25" />
+    <text x="50" y="22" fill="#FDA4AF" class="font-mono" font-size="9" font-weight="700" text-anchor="middle">4B. REJECT</text>
+    <text x="12" y="44" fill="#FFFFFF" class="font-sans" font-size="14" font-weight="800">429 Too Many Req</text>
+    <text x="12" y="60" fill="#FECDD3" class="font-mono" font-size="10.5">Drop &amp; Log Fraud Spike</text>
+    <circle cx="196" cy="22" r="5" fill="#F43F5E" />
+  </g>
+</svg>

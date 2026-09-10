@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --bg-dark: #070c18;
+    --bg-card-dark: #0d1627;
+    --paylocity-orange: #ff6a00;
+    --paylocity-darkorange: #e55f00;
+    --paylocity-navy: #0a1128;
+    --paylocity-teal: #14b8a6;
+  }
+
+  body {
+    background-color: #070c18;
+    color: #e2e8f0;
+    font-family:
+      -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #070c18;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* Code & Pre styling */
+pre {
+  background: #0a1128 !important;
+  border: 1px solid #1e293b !important;
+  border-radius: 0.75rem !important;
+  padding: 1rem !important;
+  overflow-x: auto;
+}
+
+/* Light Mode Overrides (Executive High-Contrast Medical/Tech Grade) */
+html.light body {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+html.light .hero-section {
+  background: #ffffff !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+html.light .hero-glow {
+  display: none !important;
+}
+
+html.light .card-bg {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 4px 15px -2px rgba(0, 0, 0, 0.04) !important;
+}
+
+html.light .code-block {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+html.light pre {
+  background-color: #0f172a !important;
+  border-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+html.light h1,
+html.light h2,
+html.light h3,
+html.light h4 {
+  color: #0f172a !important;
+}
+
+html.light .text-slate-400,
+html.light .text-slate-300,
+html.light .text-slate-200 {
+  color: #334155 !important;
+}
+
+html.light .text-orange-400 {
+  color: #ea580c !important;
+}
+
+html.light .text-teal-400 {
+  color: #0d9488 !important;
+}
+
+html.light .bg-slate-900,
+html.light .bg-slate-950 {
+  background-color: #f8fafc !important;
+}
+
+html.light .border-slate-800 {
+  border-color: #e2e8f0 !important;
+}
+
+/* KaTeX Overrides */
+.katex {
+  font-size: 1.1em !important;
+}
+.katex-display {
+  margin: 0.5em 0 !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.25rem 0;
+}

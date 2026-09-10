@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 320" width="100%" height="100%">
+  <defs>
+    <style>
+      .font-sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+      .font-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+      .glow-emerald { filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.45)); }
+      .glow-rose { filter: drop-shadow(0 0 10px rgba(244, 63, 94, 0.55)); }
+      .glow-amber { filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.35)); }
+    </style>
+
+    <!-- Linear Gradients -->
+    <linearGradient id="ks-bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#070D18" />
+      <stop offset="50%" stop-color="#0A1224" />
+      <stop offset="100%" stop-color="#050811" />
+    </linearGradient>
+
+    <linearGradient id="ks-node-base" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#0F172A" stop-opacity="0.95" />
+    </linearGradient>
+
+    <linearGradient id="ks-diamond-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#78350F" stop-opacity="0.8" />
+      <stop offset="50%" stop-color="#451A03" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#1E1B4B" stop-opacity="0.85" />
+    </linearGradient>
+
+    <linearGradient id="ks-include-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#065F46" />
+      <stop offset="100%" stop-color="#022C22" />
+    </linearGradient>
+
+    <linearGradient id="ks-exclude-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#475569" />
+      <stop offset="100%" stop-color="#1E293B" />
+    </linearGradient>
+
+    <!-- Markers -->
+    <marker id="ks-arrow-neutral" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#64748B" />
+    </marker>
+    <marker id="ks-arrow-emerald" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#10B981" />
+    </marker>
+    <marker id="ks-arrow-slate" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#94A3B8" />
+    </marker>
+  </defs>
+
+  <!-- Canvas Container -->
+  <rect width="880" height="320" rx="16" fill="url(#ks-bg-grad)" stroke="#1E293B" stroke-width="1.5" />
+
+  <!-- Blueprint Grid Pattern -->
+  <g opacity="0.06" stroke="#FFFFFF" stroke-width="1">
+    <line x1="0" y1="40" x2="880" y2="40" stroke-dasharray="4 4" />
+    <line x1="0" y1="80" x2="880" y2="80" stroke-dasharray="4 4" />
+    <line x1="0" y1="120" x2="880" y2="120" stroke-dasharray="4 4" />
+    <line x1="0" y1="160" x2="880" y2="160" stroke-dasharray="4 4" />
+    <line x1="0" y1="200" x2="880" y2="200" stroke-dasharray="4 4" />
+    <line x1="0" y1="240" x2="880" y2="240" stroke-dasharray="4 4" />
+    <line x1="0" y1="280" x2="880" y2="280" stroke-dasharray="4 4" />
+  </g>
+
+  <!-- Title Header Bar -->
+  <g transform="translate(24, 28)">
+    <text x="0" y="0" fill="#F59E0B" class="font-mono" font-size="11" font-weight="700" letter-spacing="1">ALGORITHM FLOWCHART · 0/1 KNAPSACK BASKET OPTIMIZER</text>
+    <text x="510" y="0" fill="#94A3B8" class="font-mono" font-size="11">Active State: <tspan fill="#10B981" font-weight="bold">OPTIMAL YIELD (+1,140 PTS)</tspan></text>
+  </g>
+
+  <!-- Connections / Edges -->
+  <path d="M 160 160 L 195 160" stroke="#64748B" stroke-width="2.2" marker-end="url(#ks-arrow-neutral)" />
+  <path d="M 380 160 L 415 160" stroke="#64748B" stroke-width="2.2" marker-end="url(#ks-arrow-neutral)" />
+
+  <!-- YES Branch (Upper - Include Item in Basket) -->
+  <path d="M 485 112 L 485 82 Q 485 72 500 72 L 640 72" stroke="#10B981" stroke-width="2.8" fill="none" class="glow-emerald" marker-end="url(#ks-arrow-emerald)" />
+
+  <!-- NO Branch (Lower - Exclude Item) -->
+  <path d="M 485 208 L 485 238 Q 485 248 500 248 L 640 248" stroke="#64748B" stroke-width="1.8" stroke-dasharray="4 3" fill="none" opacity="0.4" marker-end="url(#ks-arrow-slate)" />
+
+  <!-- Branch Label Pill YES -->
+  <g transform="translate(505, 60)" class="glow-emerald">
+    <rect width="116" height="24" rx="6" fill="#031A14" stroke="#10B981" stroke-width="1.4" />
+    <text x="58" y="16" fill="#34D399" class="font-mono" font-size="10" font-weight="700" text-anchor="middle">YES (cost ≤ w)</text>
+  </g>
+
+  <!-- Branch Label Pill NO -->
+  <g transform="translate(505, 236)" opacity="0.45">
+    <rect width="116" height="24" rx="6" fill="#0F172A" stroke="#64748B" stroke-width="1.4" />
+    <text x="58" y="16" fill="#94A3B8" class="font-mono" font-size="10" font-weight="700" text-anchor="middle">NO (cost &gt; w)</text>
+  </g>
+
+  <!-- Node 1: Budget Cap -->
+  <g transform="translate(24, 120)">
+    <rect width="136" height="80" rx="12" fill="url(#ks-node-base)" stroke="#10B981" stroke-width="1.6" class="glow-emerald" />
+    <rect x="10" y="12" width="76" height="18" rx="4" fill="#10B981" fill-opacity="0.15" />
+    <text x="48" y="24" fill="#34D399" class="font-mono" font-size="9.5" font-weight="700" text-anchor="middle">1. BUDGET</text>
+    <text x="12" y="47" fill="#FFFFFF" class="font-sans" font-size="13" font-weight="800">Monthly Cap</text>
+    <text x="12" y="66" fill="#10B981" class="font-mono" font-size="12" font-weight="700">W = $20.00</text>
+  </g>
+
+  <!-- Node 2: DP Recurrence Step -->
+  <g transform="translate(195, 115)">
+    <rect width="185" height="90" rx="12" fill="url(#ks-node-base)" stroke="#38BDF8" stroke-width="1.6" />
+    <rect x="10" y="12" width="114" height="18" rx="4" fill="#0284C7" fill-opacity="0.15" />
+    <text x="67" y="24" fill="#38BDF8" class="font-mono" font-size="9.5" font-weight="700" text-anchor="middle">2. DP RECURRENCE</text>
+    <text x="12" y="46" fill="#E2E8F0" class="font-mono" font-size="11" font-weight="600">Pepsi Zero ($3.20)</text>
+    <text x="12" y="62" fill="#94A3B8" class="font-mono" font-size="10">dp[w] = max(dp[w], dp[w-c]+p)</text>
+    <text x="12" y="78" fill="#F59E0B" class="font-mono" font-size="11" font-weight="700">Yield: 81.2 pts/$</text>
+  </g>
+
+  <!-- Node 3: Decision Diamond -->
+  <g transform="translate(485, 160)">
+    <polygon points="0,-48 70,0 0,48 -70,0" fill="url(#ks-diamond-grad)" stroke="#F59E0B" stroke-width="2.2" class="glow-amber" />
+    <text x="0" y="-12" fill="#FDE68A" class="font-mono" font-size="10" font-weight="700" text-anchor="middle" letter-spacing="0.5">3. CAPACITY</text>
+    <text x="0" y="9" fill="#FFFFFF" class="font-mono" font-size="13" font-weight="900" text-anchor="middle">$3.20 ≤ Rem?</text>
+    <text x="0" y="24" fill="#F59E0B" class="font-mono" font-size="9" font-weight="600" text-anchor="middle">Budget Gate</text>
+  </g>
+
+  <!-- Terminal 4A: Include in Basket -->
+  <g transform="translate(640, 47)" class="glow-emerald">
+    <rect width="216" height="70" rx="12" fill="url(#ks-include-grad)" stroke="#10B981" stroke-width="2.2" />
+    <rect x="12" y="10" width="80" height="16" rx="4" fill="#10B981" fill-opacity="0.2" />
+    <text x="52" y="22" fill="#34D399" class="font-mono" font-size="9" font-weight="700" text-anchor="middle">4A. INCLUDE</text>
+    <text x="12" y="44" fill="#FFFFFF" class="font-sans" font-size="14" font-weight="800">+1,140 Points</text>
+    <text x="12" y="60" fill="#A7F3D0" class="font-mono" font-size="10.5">Optimal Point Maximization</text>
+    <circle cx="196" cy="22" r="5" fill="#10B981" />
+  </g>
+
+  <!-- Terminal 4B: Exclude (Conserve Budget) -->
+  <g transform="translate(640, 213)" opacity="0.32">
+    <rect width="216" height="70" rx="12" fill="url(#ks-exclude-grad)" stroke="#64748B" stroke-width="1.2" />
+    <rect x="12" y="10" width="76" height="16" rx="4" fill="#64748B" fill-opacity="0.25" />
+    <text x="50" y="22" fill="#94A3B8" class="font-mono" font-size="9" font-weight="700" text-anchor="middle">4B. EXCLUDE</text>
+    <text x="12" y="44" fill="#FFFFFF" class="font-sans" font-size="14" font-weight="800">dp[w] Unchanged</text>
+    <text x="12" y="60" fill="#CBD5E1" class="font-mono" font-size="10.5">Budget Conserved for Others</text>
+  </g>
+</svg>

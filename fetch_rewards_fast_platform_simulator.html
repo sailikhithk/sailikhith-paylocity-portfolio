@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Fetch Rewards FAST AI Platform : Architecture, HLD, LLD & Interactive Live Simulator
+    </title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap");
+
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background-color: #070d18;
+        color: #e2e8f0;
+      }
+
+      .font-mono {
+        font-family: "JetBrains Mono", monospace;
+      }
+
+      /* Light Mode High-Contrast Overrides */
+      html.light body {
+        background-color: #f8fafc !important;
+        color: #0f172a !important;
+      }
+
+      html.light .card-bg {
+        background-color: #ffffff !important;
+        border-color: #e2e8f0 !important;
+        box-shadow: 0 4px 15px -2px rgba(0, 0, 0, 0.04) !important;
+      }
+
+      html.light h1,
+      html.light h2,
+      html.light h3,
+      html.light h4 {
+        color: #0f172a !important;
+      }
+
+      html.light .text-amber-400 {
+        color: #b45309 !important;
+      }
+
+      html.light .text-slate-400,
+      html.light .text-slate-300 {
+        color: #334155 !important;
+      }
+
+      html.light .hero-section {
+        background: #ffffff !important;
+        border-color: #e2e8f0 !important;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen antialiased">
+    <!-- Navbar -->
+    <nav
+      class="sticky top-0 z-50 bg-[#070D18]/90 backdrop-blur-md border-b border-slate-800 px-4 py-3"
+    >
+      <div class="max-w-7xl mx-auto flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div
+            class="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center font-black text-slate-950 text-base"
+          >
+            ⚡
+          </div>
+          <div>
+            <span class="font-bold text-white text-sm sm:text-base">Sai Likhith Kanuparthi</span>
+            <span class="text-xs text-slate-400 block font-mono"
+              >Fetch Rewards · FAST AI Platform & Platform Foundations</span
+            >
+          </div>
+        </div>
+        <div class="flex items-center space-x-3">
+          <button
+            id="themeToggle"
+            class="p-2 rounded-lg bg-slate-900 border border-slate-800 text-amber-400 hover:border-amber-500/40"
+          >
+            <i data-lucide="sun" class="w-4 h-4"></i>
+          </button>
+          <a
+            href="https://github.com/sailikhithk"
+            target="_blank"
+            class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-amber-500 text-slate-950 hover:bg-amber-400"
+          >
+            GitHub
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header
+      class="hero-section py-16 px-4 border-b border-slate-800 text-center bg-gradient-to-b from-[#0A1128] via-[#070D18] to-[#070D18]"
+    >
+      <div class="max-w-4xl mx-auto">
+        <div
+          class="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-slate-900 border border-slate-700 text-xs font-semibold text-slate-200 mb-5"
+        >
+          <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+          <span>Sai Likhith Kanuparthi · 7+ Years Experience · Houston, TX / Remote</span>
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight mb-4">
+          Fetch Rewards <span class="text-amber-400">FAST AI Platform</span> Architecture & Live
+          Simulator
+        </h1>
+        <p class="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto mb-8">
+          Interactive platform prototype engineered for the Fetch Rewards
+          <strong>FAST AI Platform & Platform Foundations</strong>. Bridging ML models to brand
+          managers across Fetch's 27PB data lake using async Python streaming, bounded backpressure,
+          and type-safe API boundaries.
+        </p>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl mx-auto">
+          <div class="card-bg bg-slate-900/80 border border-slate-800 rounded-xl p-3 text-left">
+            <div class="text-xl font-black text-white">16x</div>
+            <div class="text-[11px] text-slate-400">Ingestion Scale</div>
+          </div>
+          <div class="card-bg bg-slate-900/80 border border-slate-800 rounded-xl p-3 text-left">
+            <div class="text-xl font-black text-amber-400">$180,000</div>
+            <div class="text-[11px] text-slate-400">Model API Savings/yr</div>
+          </div>
+          <div class="card-bg bg-slate-900/80 border border-slate-800 rounded-xl p-3 text-left">
+            <div class="text-xl font-black text-white">4M req/m</div>
+            <div class="text-[11px] text-slate-400">Kafka Streaming Bus</div>
+          </div>
+          <div class="card-bg bg-slate-900/80 border border-slate-800 rounded-xl p-3 text-left">
+            <div class="text-xl font-black text-emerald-400">99.9%</div>
+            <div class="text-[11px] text-slate-400">FDA Platform Uptime</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Interactive Live Simulator -->
+    <main class="max-w-7xl mx-auto px-4 py-16 space-y-16">
+      <section>
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <h2 class="text-2xl font-black text-white">
+            Real-Time Receipt Ingestion & Points Allocation Simulator
+          </h2>
+          <p class="text-xs text-slate-400 mt-1">
+            Live simulation of high-throughput receipt processing with brand partner point
+            multipliers.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- Controls (4 cols) -->
+          <div
+            class="lg:col-span-4 card-bg bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4"
+          >
+            <h3 class="text-xs font-bold uppercase tracking-wider text-amber-400 font-mono">
+              Stream Parameters
+            </h3>
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Receipt Preset</label>
+              <select
+                id="presetSelect"
+                class="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono text-slate-200"
+              >
+                <option value="groceries">Kroger Grocery Run (PepsiCo & Unilever)</option>
+                <option value="superstore">Target Superstore (Molson Coors & General Mills)</option>
+                <option value="quickmart">7-Eleven Quick Stop (PepsiCo Beverages)</option>
+              </select>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs font-semibold text-slate-300 mb-1">
+                <span>Brand Multiplier:</span>
+                <span id="multiplierVal" class="text-amber-400 font-mono">2.0x</span>
+              </div>
+              <input
+                id="multiplierInput"
+                type="range"
+                min="1.0"
+                max="4.0"
+                step="0.5"
+                value="2.0"
+                class="w-full accent-amber-500 bg-slate-950 cursor-pointer"
+              />
+            </div>
+
+            <div class="flex space-x-2 pt-2">
+              <button
+                id="streamToggleBtn"
+                class="flex-1 py-2.5 rounded-xl text-xs font-bold bg-amber-500 text-slate-950 hover:bg-amber-400 shadow-md"
+              >
+                Start Live Receipt Stream
+              </button>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 pt-2 text-center text-xs">
+              <div class="p-2.5 rounded-lg bg-slate-950 border border-slate-800">
+                <span class="text-slate-500 text-[10px] block">Receipts</span>
+                <span id="receiptsCount" class="font-bold text-white font-mono">1,420</span>
+              </div>
+              <div class="p-2.5 rounded-lg bg-slate-950 border border-slate-800">
+                <span class="text-slate-500 text-[10px] block">Points</span>
+                <span id="pointsCount" class="font-bold text-amber-400 font-mono">+84,520</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feed Output (8 cols) -->
+          <div
+            class="lg:col-span-8 card-bg bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4"
+          >
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <span class="text-xs font-bold text-white font-mono"
+                >Real-Time Line-Item OCR Feed</span
+              >
+              <span class="text-[10px] font-mono text-emerald-400 flex items-center space-x-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>SSE Socket: Connected</span>
+              </span>
+            </div>
+
+            <div
+              id="logsTerminal"
+              class="h-64 bg-slate-950 border border-slate-800 rounded-xl p-3 font-mono text-xs text-slate-300 overflow-y-auto space-y-1.5"
+            >
+              <div class="text-slate-500 italic">
+                Click "Start Live Receipt Stream" to begin streaming telemetry...
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3-Tier HLD Architecture -->
+      <section class="card-bg bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8">
+        <h2 class="text-xl font-bold text-white mb-4">
+          3-Tier System Architecture (Fetch FAST AI Platform)
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <div class="p-4 rounded-xl bg-slate-950 border border-slate-800">
+            <span class="text-amber-400 font-bold font-mono block mb-1"
+              >Tier 1: Edge & Ingestion</span
+            >
+            <h4 class="font-bold text-white mb-2">Cloudflare WAF + Kafka Event Bus</h4>
+            <p class="text-slate-400 leading-relaxed">
+              Handles peak mobile upload traffic (4M req/min). Partitioned by user_id & merchant_id
+              ensuring strict FIFO ordering per receipt.
+            </p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-950 border border-slate-800">
+            <span class="text-orange-400 font-bold font-mono block mb-1"
+              >Tier 2: Compute & Lakehouse</span
+            >
+            <h4 class="font-bold text-white mb-2">Async Python + 27PB Trino Lakehouse</h4>
+            <p class="text-slate-400 leading-relaxed">
+              FastAPI async workers with bounded queues. FacadeDriver standardizes 30+ models. Redis
+              semantic caching saves $180,000/yr.
+            </p>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-950 border border-slate-800">
+            <span class="text-amber-300 font-bold font-mono block mb-1"
+              >Tier 3: Presentation & DevEx</span
+            >
+            <h4 class="font-bold text-white mb-2">TanStack Query + Component Registry</h4>
+            <p class="text-slate-400 leading-relaxed">
+              Real-time SSE token streaming with 15s keep-alive pings. Type-safe contracts (Pydantic
+              V2 ↔ Zod) and table virtualization (60fps).
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 bg-[#050912] py-8 text-center text-xs text-slate-500">
+      <p>
+        © 2026 Sai Likhith Kanuparthi · sailikhithcse@gmail.com · +1 (860) 620-4718 · Houston, TX
+      </p>
+    </footer>
+
+    <script>
+      lucide.createIcons();
+
+      // Theme Toggle
+      const themeToggle = document.getElementById("themeToggle");
+      themeToggle.addEventListener("click", () => {
+        const html = document.documentElement;
+        if (html.classList.contains("dark")) {
+          html.classList.remove("dark");
+          html.classList.add("light");
+        } else {
+          html.classList.remove("light");
+          html.classList.add("dark");
+        }
+      });
+
+      // Stream Simulation Logic
+      const multiplierInput = document.getElementById("multiplierInput");
+      const multiplierVal = document.getElementById("multiplierVal");
+      multiplierInput.addEventListener("input", (e) => {
+        multiplierVal.innerText = parseFloat(e.target.value).toFixed(1) + "x";
+      });
+
+      let streaming = false;
+      let streamInterval = null;
+      const streamToggleBtn = document.getElementById("streamToggleBtn");
+      const logsTerminal = document.getElementById("logsTerminal");
+      const receiptsCount = document.getElementById("receiptsCount");
+      const pointsCount = document.getElementById("pointsCount");
+
+      let count = 1420;
+      let points = 84520;
+
+      const items = [
+        { name: "Lay's Classic Potato Chips 8oz", sku: "028400064286", brand: "PepsiCo", pts: 25 },
+        { name: "Pepsi Zero Sugar 12pk", sku: "012000001291", brand: "PepsiCo", pts: 35 },
+        {
+          name: "Hellmann's Real Mayonnaise 30oz",
+          sku: "011111614210",
+          brand: "Unilever",
+          pts: 30,
+        },
+        { name: "Dove Deep Moisture Body Wash", sku: "079400060907", brand: "Unilever", pts: 40 },
+      ];
+
+      streamToggleBtn.addEventListener("click", () => {
+        streaming = !streaming;
+        if (streaming) {
+          streamToggleBtn.innerText = "Pause Streaming Feed";
+          streamToggleBtn.className =
+            "flex-1 py-2.5 rounded-xl text-xs font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40";
+          streamInterval = setInterval(() => {
+            count += Math.floor(Math.random() * 6 + 2);
+            const mult = parseFloat(multiplierInput.value);
+            const earned = Math.round(35 * mult);
+            points += earned;
+            receiptsCount.innerText = count.toLocaleString();
+            pointsCount.innerText = "+" + points.toLocaleString();
+
+            const item = items[Math.floor(Math.random() * items.length)];
+            const log = document.createElement("div");
+            log.className = "leading-relaxed";
+            log.innerHTML = `<span class="text-amber-400">[SSE ${new Date().toTimeString().split(" ")[0]}]</span> OCR Extracted: "${item.name}" (SKU: ${item.sku}) → Brand: ${item.brand} | <span class="text-emerald-400 font-bold">+${Math.round(item.pts * mult)} pts</span> (${mult}x Multiplier)`;
+            logsTerminal.prepend(log);
+          }, 700);
+        } else {
+          streamToggleBtn.innerText = "Start Live Receipt Stream";
+          streamToggleBtn.className =
+            "flex-1 py-2.5 rounded-xl text-xs font-bold bg-amber-500 text-slate-950 hover:bg-amber-400 shadow-md";
+          clearInterval(streamInterval);
+        }
+      });
+    </script>
+  </body>
+</html>
