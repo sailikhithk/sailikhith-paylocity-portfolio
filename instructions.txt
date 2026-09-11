@@ -12,8 +12,8 @@
 - **Airbnb (Sep 2024 - Present):** Sr Software Engineer, ML Infra & AI Engineering (GenAI Platform).
   - Built *FacadeDriver*: Python runtime decoupling 30+ LLMs with circuit breakers and dynamic token routing.
   - Built *BPI Virtual Analyst*: Greenfield analytics platform; scaled tabular batch ingestion 16x (from 600 to 10,000 rows/run, 40MB uploads); saved $180k/yr via Redis semantic caching (38% hit rate); 23-version eval harness over 1,690 ground-truth samples.
-  - In-flight PHI/PII masking: Tuned Microsoft Presidio over 12 HIPAA entities in sub-12ms on CPU.
-- **Eli Lilly (Feb 2024 - Aug 2024):** Sr Software Engineer - Dose Management Platform. FDA 21 CFR Part 11 compliant radiopharmaceutical platform for radioactive F-18 imaging agents. 99.9% uptime with zero authorization drift.
+  - In-flight PII masking: Tuned Microsoft Presidio over 12 HIPAA entities in sub-12ms on CPU.
+- **Eli Lilly (Feb 2024 - Aug 2024):** Sr Software Engineer - Dose Management Platform. FDA 21 CFR Part 11 radiopharmaceutical platform for F-18 imaging agents. 99.9% uptime with zero authorization drift.
 - **Southwest Airlines (Jan 2023 - Jan 2024):** Sr Software Engineer - Backend & Data Platform. Sustained 4M req/min Kafka event streaming with per-user partition keys and automated DLQ replay.
 - **Shell PLC (Jun 2021 - Dec 2022):** Sr Software Engineer - Backend & Data Science. Deep learning temporal autoencoders and LSTMs for continuous sensor anomaly detection.
 - **Oracle (Aug 2017 - Jul 2019):** Software Engineer - ERP Analytics & Data Engineering. Implemented Oracle Fusion Cloud HCM: Global Payroll, Time & Labor, HCM Data Loader (HDL), and Fast Formulas.
@@ -25,17 +25,17 @@
 ## 1. 60-Minute Master Timeline
 - **00:00 - 05:00 | Intro & Elevator Pitch:** Deliver the 30-second Oracle HCM + Airbnb AI platform hook.
 - **05:00 - 25:00 | Part 1: Coding (15m Algo + 10m Code Review):** 5-Pillar Senior Framing + Clean Python + Failure mode review.
-- **25:00 - 55:00 | Part 2: System Design & MLOps:** Ignite AI 3 Pillars, Delta Lake Z-Order, Presidio PII, LangGraph HITL, Deployment gates.
-- **55:00 - 60:00 | Part 3: Reverse Questions & Close:** High-agency questions for Artem & Muhtasim.
+- **25:00 - 55:00 | Part 2: System Design:** Architecture discussion (anchor with prototype visual), Delta Lake Z-Order, Presidio PII, LangGraph HITL.
+- **55:00 - 60:00 | Part 3: Q&A & Close:** High-agency reverse questions + 90s prototype demo offer.
 
 ---
 
 ## 2. The 30-Second Opening Hook (Word-for-Word)
 > *"Hi Artem and Muhtasim, really excited to connect today.*  
-> *Earlier at Oracle, I implemented **Oracle Fusion Cloud HCM** across **Global Payroll, Time & Labor, HCM Data Loader (HDL), and Fast Formulas**. I learned how enterprise workforce systems operate from the inside out: deduction hierarchies, FLSA overtime rules, and the fact that payroll is a deterministic gross-to-net invariant that can never fail.*  
-> *Over the past few years at Airbnb and Eli Lilly, I built and scaled **GenAI platform infrastructure and high-throughput distributed systems**-scaling tabular batch ingestion 16x, engineering sub-10ms semantic caching, and authoring automated evaluation harnesses across foundation models.*  
-> *I see Paylocity's Ignite AI as the ultimate intersection of those two worlds: building high-agency AI capabilities that make HCM workflows intelligent, while having the architectural rigor to keep core financial ledgers completely safe and compliant.*  
-> *I know we have a collaborative working session planned today, so I am really looking forward to diving in with you both."*
+> *Earlier at Oracle, I implemented **Oracle Fusion Cloud HCM** across **Global Payroll, Time & Labor, HCM Data Loader (HDL), and Fast Formulas**, learning deduction hierarchies, FLSA rules, and payroll's zero-drift invariants.*  
+> *At Airbnb and Eli Lilly, I built and scaled **GenAI platform infrastructure and distributed systems**-scaling tabular batch ingestion 16x, engineering sub-10ms semantic caching, and authoring foundation model eval harnesses.*  
+> *I see Paylocity's Ignite AI as the ultimate intersection of those two worlds: high-agency AI making HCM intelligent while keeping financial ledgers safe. Preparing for today, I **built an interactive prototype and architecture brief** exploring multi-tenant agent workflows and PII redaction for Paylocity. We have coding and design on our agenda today, but if we have 90 seconds at the end-or during system design-I would love to pull it up or drop the link.*  
+> *Really looking forward to diving in together!"*
 
 ---
 
@@ -62,7 +62,7 @@
 ---
 
 ## 4. Demystifying Recruiter Prep: "Deployment & Validation"
-Recruiter: *"Consider defining success metrics, using labeled data to measure improvements, and validating changes before deployment."*
+Recruiter: *"Define success metrics, use labeled data to measure improvements, and validate changes before deployment."*
 - **Does it mean live deployment in the interview? NO.** It is an architectural mindset test:
   - Junior: *"Model accuracy is 92%, we're done."*
   - Senior: *"How do we validate against ground truth and roll out to 38,000 tenants without downtime or tenant bleed?"*
@@ -86,12 +86,8 @@ Junior engineers type immediately. A Senior establishes the architectural framin
 4. **What It Prevents:** Explicitly name the system failure modes (OOM, quadratic latency) AND HCM business risks (double-payouts, FLSA overtime errors, IRS tax rounding drift).
 5. **Senior Pitch Script:** Confirm alignment before writing code.
 
-### 60-Second Constraint Checklist:
-- Input Size $N$: Web request ($N \le 10^3$) vs batch payroll ($N \ge 10^6$)?
-- Value Types: Negative values? Decimal/float precision requirements?
-- Nulls/Empty: How to handle blank resumes or zero-length shifts?
-- In-Place vs New Copy: Mutate or preserve input immutability?
-- HCM Invariants: Can shifts cross midnight?
+### 60-Second Constraints:
+$N$ (web $\le 10^3$ vs batch $\ge 10^6$), value types (decimals/floats, negatives), empty/nulls, in-place vs immutability, midnight shift crossing.
 
 ---
 
@@ -100,13 +96,13 @@ Junior engineers type immediately. A Senior establishes the architectural framin
 ### Pattern 1: Shift Scheduling (Interval Merge)
 - **Problem:** Merge overlapping employee shift intervals `[start, end]` for workforce payroll consolidation.
 - **1. Algorithm:** Sort + One-Pass Greedy Merge. Time: $O(N \log N)$, Space: $O(N)$ for output ($O(1)$ auxiliary).
-- **2. Approach:** Sort shifts by start time ascending. Iterate: if `start <= last_end`, extend `last_end = max(last_end, end)`; else append `[start, end]`.
-- **3. Why This:** Interval trees add pointer overhead and heap fragmentation. Sorting contiguous arrays provides optimal CPU L1/L2 cache locality.
+- **2. Approach:** Sort by start time. If `start <= last_end`, extend `last_end = max(last_end, end)`; else append `[start, end]`.
+- **3. Why This:** Interval trees add pointer overhead and heap fragmentation; contiguous arrays optimize CPU L1/L2 cache locality.
 - **4. What It Prevents:**
   - *FLSA Overtime Double-Billing:* Evaluated separately, punches `[08:00, 16:30]` and `[16:00, 20:00]` bill 12.5h with 4.5h overtime instead of 12.0h with 4.0h overtime.
   - *Quadratic Latency:* Prevents $O(N^2)$ checks ($2.5 \times 10^9$ ops for 50k shifts) from timing out API gateways.
   - *Subsumed Shift Omission:* Nested shifts (`[09:00, 17:00]` and `[11:00, 13:00]`) are cleanly merged via `max(last_end, end)`.
-- **Spoken Script:** *"Artem, Muhtasim: I recommend a Sort-then-Linear-Merge greedy sweep in $O(N \log N)$ time and $O(N)$ space. The invariant is that our merged list always contains maximal non-overlapping intervals. Crucially, this prevents FLSA overtime double-billing where overlapping punch windows inflate payroll costs, while bounding execution under 25ms for 50k shifts. Unless you want midnight normalization first, I'll code this now."*
+- **Spoken Script:** *"Artem, Muhtasim: I recommend a Sort-then-Linear-Merge greedy sweep in $O(N \log N)$ time, $O(N)$ space. This invariant ensures maximal non-overlapping intervals, preventing FLSA overtime double-billing and bounding execution under 25ms for 50k shifts. I will code this now."*
 
 ```python
 def merge_shifts(intervals: list[list[int]]) -> list[list[int]]:
@@ -126,13 +122,13 @@ def merge_shifts(intervals: list[list[int]]) -> list[list[int]]:
 ### Pattern 2: Payroll Anomaly Detection (Sliding Window)
 - **Problem:** Given daily payroll transaction stream and window `k`, find max contiguous sum and flag windows exceeding threshold `T`.
 - **1. Algorithm:** Fixed-Size Sliding Window with $O(1)$ Delta Accumulator. Time: $O(N)$ single pass, Space: $O(1)$ auxiliary.
-- **2. Approach:** Compute baseline sum of first $k$ elements. Slide $i$ from $k$ to $N-1$: update `window_sum += arr[i] - arr[i-k]` in $O(1)$. Flag window start if `window_sum > T`.
+- **2. Approach:** Baseline sum of first $k$. Slide $i$ from $k$ to $N-1$: update `window_sum += arr[i] - arr[i-k]` in $O(1)$. Flag if `window_sum > T`.
 - **3. Why This:** Recalculating window sum is $O(N \cdot k)$ ($3 \times 10^7$ additions for $10^6$ rows). Prefix sum requires $O(N)$ extra memory ($8$MB buffer). Sliding window is pure streaming with $O(1)$ RAM.
 - **4. What It Prevents:**
   - *Direct Deposit Fraud Runaway:* Catching payroll spikes in real-time prevents fraudulent ACH NACHA files from being transmitted.
   - *IEEE 754 Floating-Point Drift:* Using `Decimal` or integer cents prevents penny rounding audit penalties from IRS.
   - *Kubernetes Worker OOM:* $O(1)$ memory prevents heap bloat and GC pauses on high-volume worker pods.
-- **Spoken Script:** *"Muhtasim, Artem: To monitor rolling payroll spikes without memory bloat, I am using a Fixed-Size Sliding Window with an $O(1)$ Delta Accumulator. This runs in $O(N)$ single-pass time and strict $O(1)$ auxiliary memory. It prevents worker memory pressure and catches payroll fraud before ACH banking cutoff."*
+- **Spoken Script:** *"Muhtasim, Artem: To monitor rolling payroll spikes without memory bloat, I use a Fixed-Size Sliding Window with an $O(1)$ Delta Accumulator in $O(N)$ time and $O(1)$ memory, catching payroll fraud before ACH banking cutoff."*
 
 ```python
 def detect_payroll_anomalies(
@@ -154,13 +150,13 @@ def detect_payroll_anomalies(
 ### Pattern 3: Candidate Skill Matching (Two-Stage Top-K Retrieval)
 - **Problem:** Rank candidates against job requirements by skill set overlap similarity (Jaccard).
 - **1. Algorithm:** Jaccard Set Overlap + Bounded Min-Heap Selection. Time: $O(N \cdot S + N \log K)$, Space: $O(K)$ heap.
-- **2. Approach:** Normalize tokens to lowercase sets. Calculate Jaccard $\frac{|A \cap B|}{|A \cup B|}$. Push to min-heap of size $K$; if size $> K$, evict lowest score via `heappop()`.
+- **2. Approach:** Normalize tokens to lowercase sets. Jaccard $\frac{|A \cap B|}{|A \cup B|}$. Push to min-heap of size $K$; if size $> K$, evict lowest score.
 - **3. Why This:** Full sorting takes $O(N \log N)$, wasting work ordering 99,990 rejected applicants. Min-heap bounds heap ops to $\log 10 \approx 3.3$ vs $\log 100,000 \approx 16.6$, cutting ranking CPU by 80%.
 - **4. What It Prevents:**
   - *False Case/Whitespace Disqualification:* Normalizing prevents qualified resumes ("Python" vs "python ") from scoring 0.
   - *Zero-Division Crashes:* Explicit guards on empty skill sets prevent 500 runtime errors on blank resumes.
   - *Semantic Hallucination on Strict Accreditations:* Deterministic lexical match guarantees licenses (CPA, SHRM-CP) aren't blurred by dense vector embeddings.
-- **Spoken Script:** *"Muhtasim: For candidate ranking across large applicant pools, I am pairing Set-Theoretic Jaccard Scoring with a Bounded Min-Heap of size K. This runs in $O(N \log K)$ without sorting the long tail of rejected applicants, preventing memory bloat and zero-division crashes on sparse profiles. In Ignite AI, this serves as Stage 1 lexical retrieval before Stage 2 cross-encoder reranking."*
+- **Spoken Script:** *"Muhtasim: For candidate ranking, I pair Set-Theoretic Jaccard with a Bounded Min-Heap of size K. Running in $O(N \log K)$ without sorting 100k rejected applicants, it serves as Stage 1 lexical retrieval before cross-encoder reranking."*
 
 ```python
 import heapq
@@ -229,5 +225,9 @@ When presented with a code snippet to review, structure your response as:
 
 ---
 
-## 9. Closing Statement (At 59:00)
-> *"Artem, Muhtasim, thank you both for the working session today. I really enjoyed digging into Delta Lake layouts, agentic state machines, and candidate matching with you. Everything we discussed reinforces how exciting the Ignite AI roadmap is, and how directly my background in Oracle Fusion HCM and Airbnb's AI platform maps to what you're building. Looking forward to the next steps with Emy and the team!"*
+## 9. Closing Statement & Prototype Demo Playbook (At 55:00 - 59:00)
+- **Part 2 Secret Weapon (System Design):** When architecting workflows: *"When analyzing Ignite AI, I mapped this 3-tier architecture into an interactive prototype with Presidio PII redaction and LangGraph checkpointers. Mind if I toggle over for 30s to anchor our visual discussion?"*
+- **Part 3 Permission-Based Close (At 55:00):**
+  > *"Artem, Muhtasim, I know we have hard stops at the top of the hour. As mentioned earlier, I built a functioning prototype and architecture brief for Ignite AI. Would you like me to share screen for 90 seconds to show the highlights, or prefer I drop the URL in Teams chat for you to explore asynchronously?"*
+- **Closing Script (At 59:00):**
+  > *"Artem, Muhtasim, thank you both for the working session today. I really enjoyed digging into Delta Lake layouts, agentic state machines, and candidate matching with you. Everything we discussed reinforces how exciting the Ignite AI roadmap is, and how directly my background in Oracle Fusion HCM and Airbnb's AI platform maps to what you're building. Looking forward to the next steps with Emy and the team!"*

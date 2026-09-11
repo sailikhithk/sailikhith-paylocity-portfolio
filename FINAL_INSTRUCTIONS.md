@@ -1,12 +1,12 @@
-# PAYLOCITY 60-MINUTE TECHNICAL SCREEN — TACTICAL EXECUTION COMMAND SHEET
+# PAYLOCITY 60-MINUTE TECHNICAL SCREEN - TACTICAL EXECUTION COMMAND SHEET
 
 **Role:** Senior Machine Learning Engineer (Ignite AI & ML Platform)  
 **Company:** Paylocity (NASDAQ: PCTY)  
-**Interview Date & Time:** Friday, September 11, 2026 · 9:00 AM – 10:00 AM CDT (America/Chicago)  
+**Interview Date & Time:** Friday, September 11, 2026 · 9:00 AM - 10:00 AM CDT (America/Chicago)  
 **Platform:** Microsoft Teams (Live Working Session · Camera On · Full Screen Share Mandatory)  
 **Interviewers:**
-- **Artem Žukov** (Staff AI/ML Platform Engineer — Prague)
-- **Muhtasim Billah** (Senior Data Scientist — Austin)
+- **Artem Žukov** (Staff AI/ML Platform Engineer - Prague)
+- **Muhtasim Billah** (Senior Data Scientist - Austin)
 **Strict Policy:** No AI assistants permitted during the interview (No Copilot, Cursor inline, etc.).
 
 ---
@@ -72,7 +72,7 @@ When they ask: *"Sai Likhith, can you tell us a bit about yourself and your back
 
 > *"Hi Artem and Muhtasim, really excited to connect today.*
 >
-> *Earlier in my career at Oracle, I implemented **Oracle Fusion Cloud HCM**—specifically working across **Global Payroll, Time & Labor, HCM Data Loader (HDL), and Fast Formulas**. I learned how enterprise workforce systems operate from the inside out: deduction hierarchies, FLSA overtime rules, and the fact that payroll is a deterministic gross-to-net invariant that can never fail.*
+> *Earlier in my career at Oracle, I implemented **Oracle Fusion Cloud HCM**-specifically working across **Global Payroll, Time & Labor, HCM Data Loader (HDL), and Fast Formulas**. I learned how enterprise workforce systems operate from the inside out: deduction hierarchies, FLSA overtime rules, and the fact that payroll is a deterministic gross-to-net invariant that can never fail.*
 >
 > *Over the past few years at Airbnb and Eli Lilly, I built and scaled **production GenAI platform infrastructure**: I unified **30+ foundation models** (Claude, GPT-4o, Nova, Llama) behind a single FacadeDriver interface on AWS Bedrock, built an automated **evaluation harness across 23 prompt versions and 1,690 ground-truth cases** using **LLM-as-a-judge virtual evaluators**, engineered **sub-12ms Presidio PII redaction across 12 HIPAA entity types**, deployed **OTEL-based observability with 17 production metrics piped to Telescope**, and scaled tabular batch ingestion **16x** from 600 to 10,000 rows per run.*
 >
@@ -454,8 +454,20 @@ When Artem or Muhtasim presents a code snippet for review, do not just point at 
 
 ---
 
-## 9. Closing Statement (How to End Strong at 59:00)
+## 9. Closing Statement & Prototype Demo Playbook (How to End Strong at 59:00)
 
-When wrapping up:
+### The Dual Demo Strategy (Permission-Based, Zero Agenda Hijacking):
+1. **The Secret Weapon (During Part 2 System Design):**
+   * Do not wait for the end when everyone is tired and watching the clock.
+   * When Artem or Muhtasim asks to architect candidate matching, agentic workflows, or Lakehouse ingestion, pivot naturally:
+     > *"Actually, when I was analyzing Ignite AI, I mapped out this exact 3-tier architecture: CDC ingestion, Delta Lake Z-ordering, Presidio PII filtering, and LangGraph checkpointers. I actually have the architecture visual live on the prototype I built. Mind if I toggle over for 30 seconds to anchor our visual discussion?"*
+   * *Impact:* You are not pitching a side project; you are using your live engineering artifact as an interactive whiteboard to answer their question.
 
-> *"Artem, Muhtasim, thank you both for the working session today. I really enjoyed digging into Delta Lake layouts, agentic state machines, and candidate matching with you. Everything we discussed reinforces how exciting the Ignite AI roadmap is, and how directly my background in Oracle Fusion HCM and Airbnb's AI platform maps to what you're building. Looking forward to the next steps with Emy and the team!"*
+2. **The Permission-Based Offer (At 55:00 in Part 3):**
+   * Never just launch into a demo unprompted. Give them total control of their schedule:
+     > *"Artem, Muhtasim, I know we want to leave time for questions and you likely have hard stops at the top of the hour. As I mentioned earlier, I built a functioning interactive prototype and architecture brief for Ignite AI. Would you like me to share my screen for 90 seconds to show the highlights, or would you prefer I drop the URL in the Teams chat so you can explore it asynchronously?"*
+   * If they say **"Show us!"**: Share screen -> show the 3-tier architecture diagram, the Presidio PII benchmark (<12ms), and the LangGraph state machine with PostgresSaver checkpointers.
+   * If they say **"Drop the link"**: Paste URL into Teams chat. You look respectful, professional, and they will explore it right after the call.
+
+3. **When wrapping up (At 59:00):**
+   > *"Artem, Muhtasim, thank you both for the working session today. I really enjoyed digging into Delta Lake layouts, agentic state machines, and candidate matching with you. Everything we discussed reinforces how exciting the Ignite AI roadmap is, and how directly my background in Oracle Fusion HCM and Airbnb's AI platform maps to what you're building. Looking forward to the next steps with Emy and the team!"*
