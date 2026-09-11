@@ -101,7 +101,31 @@ Keep this mental model top-of-mind:
 
 ---
 
-## 5. Part 1 Live Coding Battle Rules (25 Min)
+## 5. Demystifying Recruiter Prep: "Deployment & Validation"
+
+> **Recruiter's Exact Advice:** *"Consider defining success metrics, using labeled data to measure improvements, and validating changes before deployment."*
+
+### Does it mean you deploy in the interview?
+**NO.** You will not be deploying code, running bash scripts, or touching AWS/Kubernetes consoles. This is an architectural mindset test: Senior vs Junior.
+* **Junior trap:** "The model has 92% accuracy, my job is done."
+* **Senior ML Platform stance:** "How do we validate this against ground truth and safely roll it out to 38,000 enterprise tenants without downtime or tenant bleed?"
+
+### The 3 Pillars to Articulate in System Design / Coding:
+1. **Pre-Deployment Validation (Offline Evals & Guardrails):**
+   * Run automated CI/CD eval harnesses over labeled golden datasets.
+   * Enforce strict performance SLAs: PR-AUC on fraud/payroll anomalies, sub-12ms P99 latency on Presidio PII redaction.
+2. **Safe Rollout Strategies (Shadow & Canary on Kubernetes/EKS):**
+   * **Shadow Deployment:** Mirror live production traffic to the new model in parallel. Compare outputs silently with zero tenant impact.
+   * **Canary Deployment:** Route 5% -> 25% -> 50% -> 100% of live tenant traffic based on automated Prometheus/Datadog alarms (rollback if P99 > 50ms or 5xx error rate > 0.1%).
+3. **Data & Schema Contracts (Zero Silent Drift):**
+   * Set Delta Lake `mergeSchema=false` and enforce Pydantic/Zod contracts so upstream changes fail fast before corrupting downstream ledgers.
+
+> **One-Liner to Drop in the Interview:**  
+> *"Once the baseline logic is locked, my deployment strategy is a **shadow release against mirrored traffic**, followed by a **5% canary rollout on Kubernetes** with automated latency and error-rate rollback alarms before routing 100% of tenant traffic."*
+
+---
+
+## 6. Part 1 Live Coding Battle Rules (25 Min)
 
 1. **Do NOT type immediately.** Take 60 seconds to clarify constraints:
    * *"Are inputs guaranteed non-empty?"*
@@ -119,7 +143,7 @@ Keep this mental model top-of-mind:
 
 ---
 
-## 6. Emergency Fail-Safes & Traps
+## 7. Emergency Fail-Safes & Traps
 
 | Scenario | What to Do / What to Say |
 | :--- | :--- |
@@ -130,7 +154,7 @@ Keep this mental model top-of-mind:
 
 ---
 
-## 7. High-Agency Reverse Questions (Ask in Part 3)
+## 8. High-Agency Reverse Questions (Ask in Part 3)
 
 1. **For Artem Žukov:**
    > *"Artem, as Paylocity scales agentic workflows on LangGraph, how do you handle state machine schema evolution when an in-flight workflow checkpointed in Postgres spans across a deployment that modifies the graph topology or node contracts?"*
@@ -141,7 +165,7 @@ Keep this mental model top-of-mind:
 
 ---
 
-## 8. Closing Statement (How to End Strong at 59:00)
+## 9. Closing Statement (How to End Strong at 59:00)
 
 When wrapping up:
 
