@@ -175,7 +175,71 @@ Sai
 
 ---
 
-## 7. Cadence, Formatting & Anti-Bot Guardrails
+## 7. Company Research & Intelligence Bullets (Unrejectable Pipeline Stage 03 & 04b)
+
+When researching a company for `03_company_brief.md`, drafting `04_hiring_manager_outreach.md`, or framing `04b_bullet_impact_matrix.md`, **never write like a corporate press release or an automated summary bot**.
+
+### The 3 Archetypes in Company Research
+
+| Robotic AI Slop (PR Boilerplate) | Dry SWE (Flat Stats) | Punchy & Charming Staff Engineer (Sai's Lane) |
+| :--- | :--- | :--- |
+| *"Paylocity is an industry-leading cloud platform empowering modern enterprises with comprehensive human capital management, leveraging generative AI to streamline human resources workflows."* | *"Paylocity has 38k clients, $1.4B revenue, uses AWS, C#, Kafka, and launched Ignite AI in 2024."* | *"Paylocity cuts paychecks for 38,000 corporate tenants. In payroll, a 0.01% anomaly isn't a minor bug - it's delayed rent checks, IRS tax penalties, and an irate CFO on Friday at 4 PM. Their tech stack is actively wrestling 25 years of legacy .NET monoliths into Kafka and Delta Lake. The real bottleneck isn't prompt engineering; it's streaming multi-tenant state without locking production databases."* |
+| *"Fetch Rewards is an innovative consumer loyalty application utilizing machine learning algorithms to process receipt images and reward users seamlessly."* | *"Fetch has 13.5M MAU, $3B valuation, 900 employees, and uses Python, Triton, and Snowflake."* | *"Fetch sees $200B+ in gross retail transactions across 13.5M users snapping crumpled grocery receipts on low-end phone cameras. The real engineering battle is OCR noise, fraudulent receipt replay attacks, and holding Triton inference latency under 150ms so users get instant dopamine instead of a spinning wheel."* |
+| *"Eli Lilly is a global pharmaceutical leader committed to creating medicines that make life better for people around the world through digital health innovation."* | *"Eli Lilly does pharma, market cap $800B+, uses 21 CFR Part 11 for FDA clinical compliance."* | *"Clinical trial software lives under 21 CFR Part 11. If an audit log drops a timestamp or permits unversioned edits, the FDA can freeze a multi-billion-dollar drug launch. You don't get to move fast and break things; you build bulletproof, immutable ledgers that laugh at regulatory audits."* |
+
+---
+
+### The 4 Golden Rules for Company Research Bullets
+
+#### 1. The "2 AM Production Panic" (Skin in the Game)
+* Every business has a specific operational disaster that keeps their VP of Engineering awake at night.
+* Identify what actually breaks when their systems fail at scale:
+  * **Fintech/Payroll:** Delayed direct deposits, tax penalty calculations, float precision bugs.
+  * **Healthcare/Biotech:** Cross-patient PII leakage, FDA audit halts, unverified model hallucinations in clinical dosage.
+  * **E-Commerce/Travel:** Search latency spikes dropping checkout conversions, double-booking inventory collisions.
+  * **Consumer Loyalty:** OCR hallucinations, reward wallet drain, fraud ring exploits.
+* **Lead with this reality in your research bullets.** It shows you understand their business stakes like a peer executive, not a junior coder looking for a syntax assignment.
+
+#### 2. The "Under-the-Hood" Reality (Look for the Scars)
+* Look past the glossy marketing buzzwords ("AI-driven", "Seamless cloud-native platform").
+* Identify the actual architectural friction:
+  * Where are they migrating? *(e.g., .NET / Java monoliths $\rightarrow$ distributed Kafka / Delta Lake).*
+  * Where is the data dirty? *(e.g., unindexed SQL tables, multi-tenant state bleeding, unstructured phone uploads).*
+  * Where are the cost spikes? *(e.g., un-cached LLM token spend, oversized GPU clusters idling).*
+
+#### 3. The "Uncommon Overlap" Wedge (Why Sai)
+* Frame the company's biggest engineering headache as the exact problem you have already conquered:
+  * *Their problem:* Multi-tenant privacy and data isolation $\rightarrow$ *Sai's wedge:* Presidio 3-tier PII redaction (regex + ONNX NER) holding P99 under 12ms at Airbnb.
+  * *Their problem:* Slow batch imports crashing worker pods $\rightarrow$ *Sai's wedge:* 16x upload acceleration (10,000 rows/run, 40MB files) with zero OOM events at Lilly.
+  * *Their problem:* Unstable write concurrency in analytics $\rightarrow$ *Sai's wedge:* Delta Lake OCC commit logs and DLQ routing patterns.
+
+#### 4. Left-Margin Formatting & Rhythmic Cadence
+* **Bold the hook in the first 4 words:** Put the architectural punchline right where eyes land first.
+* **Zero em-dashes:** Use hyphens with spaces (` - `), colons, or parentheses.
+* **Use physical engineering verbs:** *choke point, bleed, blast radius, scar tissue, guardrail, lock contention, zombie workers, dogfooding*.
+
+---
+
+### Concrete Stage 03 Dossier Blueprint
+
+When generating `03_company_brief.md`, structure the strategic hooks with this exact punch and warmth:
+
+```markdown
+## 🎯 3 High-Impact Strategic Hooks
+
+1. **Payroll errors trigger IRS penalties, not just bad reviews:**
+   * Paylocity cuts paychecks for 38,000 corporate clients. At this scale, a 0.01% anomaly in payroll calculation or timecard aggregation isn't a minor bug ticket - it's delayed employee paychecks, tax penalties, and an angry CFO on Friday afternoon.
+
+2. **Dirty legacy state is the real engineering battleground:**
+   * They aren't just tuning LLMs in isolation. Their platform is actively wrangling 25 years of legacy .NET schemas and SQL Server databases into modern event streams (Kafka + Delta Lake). The core challenge is streaming multi-tenant state without triggering lock contention on live transactional DBs.
+
+3. **Immediate scar tissue from regulated production systems:**
+   * Having engineered 21 CFR Part 11 immutable audit logs at Lilly and high-throughput batching (10,000 rows/run) at Airbnb, Sai brings plug-and-play production guardrails to Ignite AI. The team skips the expensive trial-and-error phase of multi-tenant model governance.
+```
+
+---
+
+## 8. Cadence, Formatting & Anti-Bot Guardrails
 - **Zero Em-Dashes:** Never use em-dashes. Use hyphens with spaces, colons, or commas. Em-dashes scream automated generation.
 - **Whitespace is Oxygen:** Keep paragraphs to 1 or 2 sentences. A wall of text does not get read; a punchy note gets answered in 5 minutes.
 - **Backtick technical terms:** `PostgresSaver`, `asyncio.Queue`, `typing.Protocol`, `is_allowed()`.
@@ -185,3 +249,4 @@ Sai
   - Portfolio: `sailikhith.me` (Always double-check the 'l')
   - LinkedIn: `linkedin.com/in/sailikhithk`
   - GitHub: `github.com/sailikhithk`
+
