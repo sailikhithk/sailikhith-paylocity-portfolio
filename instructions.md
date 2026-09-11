@@ -71,6 +71,11 @@ Recruiter: *"Consider defining success metrics, using labeled data to measure im
   2. *Safe Rollouts (Shadow & Canary):* Shadow release mirrors live traffic silently. Canary rollout routes 5% -> 25% -> 50% -> 100% on Kubernetes/EKS with Prometheus automated rollback if P99 > 50ms or 5xx > 0.1%.
   3. *Data & Schema Contracts:* Delta Lake `mergeSchema=false` + strict Pydantic contracts to prevent silent schema breakage.
 - **Spoken One-Liner:** *"Once baseline logic is locked, my deployment strategy is a shadow release against mirrored traffic, followed by a 5% canary rollout on Kubernetes with automated latency and error-rate rollback alarms before routing 100% of tenant traffic."*
+- **Ignite AI 3-Tier Production Architecture:**
+  - *Tier 1 (Ingestion):* CDC -> Kafka (4M req/min, `(tenant_id, employee_id)`) -> Delta Lake Bronze.
+  - *Tier 2 (Lakehouse):* Presidio PII (<12ms) -> Delta Lake Silver/Gold with Z-Ordering on `(tenant_id, employee_id)` & `mergeSchema=false`.
+  - *Tier 3 (Agents & HITL):* LangGraph state machine (`PostgresSaver`) -> AWS Bedrock/Azure OpenAI (ZDR) -> Routing changes trigger HITL interrupt -> S3 WORM audit logs.
+
 
 ---
 
@@ -203,6 +208,12 @@ When presented with a code snippet to review, structure your response as:
 7. **Bare Except (`except: pass`):** Swallows `KeyboardInterrupt`, `MemoryError`, DB timeouts. **Prevents silent pipeline stalls and zombie worker pods.** Fix: `except SpecificException as e:` + log and re-raise.
 8. **Unclosed Resource (`f = open(...)` without context manager):** File handles / DB connections leak on exception. **Prevents file descriptor exhaustion under load.** Fix: `with open(...) as f:`.
 
+### Emergency Traps & Fail-Safe Quick-Scripts:
+- **Stuck on Edge Case:** Think aloud: *"If `start <= last_end`, `merged[-1][1] = max(last_end, end)` cleanly covers identical boundaries."*
+- **Challenged on Architecture:** *"Great point, Artem. For pure batch that holds. I chose Z-ordering to bound interactive P99 query latency across 38k tenants without S3 metadata throttling."*
+- **Asked Unfamiliar Tool:** Frame via first principles: *"I have not deployed that specific tool, but the core distributed systems constraint is X. Here is how I design the boundary..."*
+- **Finished Early (<15 min):** Dry-run 3 edge cases (empty, single, extreme), state $O(N)$ complexity, and ask: *"Would you like me to handle additional edge cases or optimize further?"*
+
 ---
 
 ## 8. High-Agency Reverse Questions (Part 3)
@@ -212,6 +223,11 @@ When presented with a code snippet to review, structure your response as:
    > *"Muhtasim, in your resume parsing and candidate matching models, what balance have you found between dense vector semantic retrieval versus sparse BM25 token matching for industry-specific certifications (like SHRM-CP or CPA) where semantic embeddings might blur precise keyword requirements?"*
 3. **To Both:**
    > *"What does the collaboration cadence look like between the platform engineering team and the applied data science pods when bringing a new experimental agent capability into production?"*
+
+### Senior STAR+R Anchors (Technical Screen):
+- **Architecture Disagreement:** Evaluated flat vector search vs hybrid RRF (Dense + BM25) at Airbnb. Built prototype on 5,000 queries; hybrid achieved +22% NDCG@10 on domain keywords.
+- **Production OOM Incident:** Ingestion crashed on 40MB uploads. Diagnosed unbounded list; refactored to chunked streaming async generator (`asyncio.Queue(maxsize=100)`), scaling throughput 16x (600 to 10k rows/run) with 0 OOMs.
+
 
 ---
 
