@@ -438,10 +438,17 @@ When Artem or Muhtasim presents a code snippet for review, do not just point at 
 
 ## 8. High-Agency Reverse Questions (Ask in Part 3)
 
-1. **For Artem Žukov:**
-   > *"Artem, as Paylocity scales agentic workflows on LangGraph, how do you handle state machine schema evolution when an in-flight workflow checkpointed in Postgres spans across a deployment that modifies the graph topology or node contracts?"*
-2. **For Muhtasim Billah:**
-   > *"Muhtasim, in your resume parsing and candidate matching models, what balance have you found between dense vector semantic retrieval versus sparse BM25 token matching for industry-specific certifications (like SHRM-CP or CPA) where semantic embeddings might blur precise keyword requirements?"*
+### Why Phrasing Matters for Staff/Senior Interviewers:
+> **Coaching Invariant:** Never frame reverse-questions as an interrogation or pop-quiz audit of their tech stack. If an interviewer has not solved an edge case (like state schema migrations across breaking deployments), an aggressive or overly presumptive question puts them on the defensive. Instead, lead with shared practitioner empathy ("In my experience... One headache I have wrestled with..."), drop tool dogmatism unless they brought it up first, and invite them to share their architectural philosophy.
+
+1. **For Artem Žukov (Staff Platform):**
+   > *"Artem, one of the biggest platform headaches I ran into on long-running agent workflows was state persistence across deployments, especially when in-flight workflows span a release that updates graph topology or data contracts. As Ignite AI expands into multi-step agent tasks, how is your platform team thinking about state evolution and deployment safety?"*
+   * *Why this lands:* Demonstrates Staff-level awareness of production state persistence pain, does not assume their exact framework, and gives him room to discuss their roadmap or current patterns.
+
+2. **For Muhtasim Billah (Senior DS):**
+   > *"Muhtasim, when matching candidates to job specs, pure semantic vector search often blurs strict hard requirements, like a CPA or SHRM certification, where exact keywords are non-negotiable. In Paylocity's matching models, how do you balance dense semantic retrieval against deterministic keyword filtering?"*
+   * *Why this lands:* Direct trade-off discussion, grounded in HCM credentials (CPA/SHRM), inviting him to talk through his retrieval architecture without sounding like an academic paper.
+
 3. **For Both:**
    > *"What does the collaboration cadence look like between the platform engineering team and the applied data science pods when bringing a new experimental agent capability into production?"*
 
@@ -451,4 +458,4 @@ When Artem or Muhtasim presents a code snippet for review, do not just point at 
 
 When wrapping up:
 
-> *"Artem, Muhtasim—thank you both for the working session today. I really enjoyed digging into Delta Lake layouts, LangGraph state machines, and resume matching with you. Everything we discussed reinforces how exciting the Ignite AI roadmap is, and how directly my background in Oracle Fusion HCM and Airbnb's AI platform maps to what you're building. Looking forward to the next steps with Emy and the team!"*
+> *"Artem, Muhtasim, thank you both for the working session today. I really enjoyed digging into Delta Lake layouts, agentic state machines, and candidate matching with you. Everything we discussed reinforces how exciting the Ignite AI roadmap is, and how directly my background in Oracle Fusion HCM and Airbnb's AI platform maps to what you're building. Looking forward to the next steps with Emy and the team!"*

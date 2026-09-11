@@ -3,7 +3,7 @@
 **Company:** Paylocity (NASDAQ: PCTY)  
 **Interviewers:** Artem Žukov (Staff AI/ML Platform Eng), Muhtasim Billah (Sr Data Scientist)  
 **Format:** 60-Min Technical Working Session · Microsoft Teams · Full Screen Share Mandatory  
-**Strict Policy:** No AI assistants during interview (Zero Copilot / Cursor inline).
+**Policy:** Zero AI assistants during interview (No Copilot / Cursor inline).
 
 ---
 
@@ -17,7 +17,7 @@
 - **Southwest Airlines (Jan 2023 - Jan 2024):** Sr Software Engineer - Backend & Data Platform. Sustained 4M req/min Kafka event streaming with per-user partition keys and automated DLQ replay.
 - **Shell PLC (Jun 2021 - Dec 2022):** Sr Software Engineer - Backend & Data Science. Deep learning temporal autoencoders and LSTMs for continuous sensor anomaly detection.
 - **Oracle (Aug 2017 - Jul 2019):** Software Engineer - ERP Analytics & Data Engineering. Implemented Oracle Fusion Cloud HCM: Global Payroll, Time & Labor, HCM Data Loader (HDL), and Fast Formulas.
-- **Patent:** Indian Patent Office (App: 202541026299, Modular Deep Learning Architecture for Cross-Domain Transfer and Incremental Learning), published.
+- **Patent:** Indian Patent Office (App: 202541026299, Modular Deep Learning for Transfer & Incremental Learning), published.
 - **Education & Certs:** M.S. CS, NYU Tandon (3.69 GPA); B.Tech CSE, JNTU Hyderabad; AWS SAP-C02, AWS MLS-C01, GCP PDE, Azure DP-100.
 
 ---
@@ -32,7 +32,7 @@
 
 ## 2. The 30-Second Opening Hook (Word-for-Word)
 > *"Hi Artem and Muhtasim, really excited to connect today.*  
-> *Earlier in my career at Oracle, I implemented **Oracle Fusion Cloud HCM**-specifically working across **Global Payroll, Time & Labor, HCM Data Loader (HDL), and Fast Formulas**. I learned how enterprise workforce systems operate from the inside out: deduction hierarchies, FLSA overtime rules, and the fact that payroll is a deterministic gross-to-net invariant that can never fail.*  
+> *Earlier at Oracle, I implemented **Oracle Fusion Cloud HCM** across **Global Payroll, Time & Labor, HCM Data Loader (HDL), and Fast Formulas**. I learned how enterprise workforce systems operate from the inside out: deduction hierarchies, FLSA overtime rules, and the fact that payroll is a deterministic gross-to-net invariant that can never fail.*  
 > *Over the past few years at Airbnb and Eli Lilly, I built and scaled **GenAI platform infrastructure and high-throughput distributed systems**-scaling tabular batch ingestion 16x, engineering sub-10ms semantic caching, and authoring automated evaluation harnesses across foundation models.*  
 > *I see Paylocity's Ignite AI as the ultimate intersection of those two worlds: building high-agency AI capabilities that make HCM workflows intelligent, while having the architectural rigor to keep core financial ledgers completely safe and compliant.*  
 > *I know we have a collaborative working session planned today, so I am really looking forward to diving in with you both."*
@@ -41,19 +41,19 @@
 
 ## 3. Quick-Reference Jargon & Domain Card
 - **Security & Multi-Tenancy:**
-  - *Principle of Least Privilege (PoLP):* Agent tools have read-only policy access; zero unapproved general ledger write access.
+  - *Principle of Least Privilege (PoLP):* Agent tools have read-only policy access; zero general ledger write access.
   - *Zero Data Retention (ZDR):* Models invoked via AWS Bedrock / Azure OpenAI under signed BAAs with ZDR.
   - *Tenant Bleed Prevention:* Enforce composite partitioning `(tenant_id, document_id)` in vector stores and caches.
-  - *WORM Storage:* Immutable S3 Object Lock for SOC 2 Type II cryptographic audit trails.
+  - *WORM Storage:* Immutable S3 Object Lock for SOC 2 Type II audit trails.
 - **Lakehouse & Data Platform (Artem):**
   - *Delta Lake Layout:* Coarse monthly temporal partitions + **Z-Ordering** on `(tenant_id, employee_id)` to prevent small-file partition explosion across 38,000 tenants.
   - *LangGraph HITL:* `PostgresSaver` checkpointers ensure **worker ephemerality**; webhook resumes via `Command(resume=payload)`.
   - *Data Contracts:* Declarative schema enforcement on Delta Lake (`mergeSchema=false`) to eliminate silent contract drift.
 - **AI & Data Science (Muhtasim):**
   - *Presidio PII Redaction:* 3-tier pipeline (<1ms regex + 6-8ms ONNX NER on Triton + Redis token cache) -> empirical P99 < 12ms.
-  - *Two-Stage Candidate Matching:* Dense embeddings + Sparse BM25 combined via **Reciprocal Rank Fusion (RRF)**, followed by cross-encoder reranking.
+  - *Two-Stage Candidate Matching:* Dense embeddings + BM25 combined via **Reciprocal Rank Fusion (RRF)**, followed by cross-encoder reranking.
   - *Evaluation Metrics:* **PR-AUC** over ROC-AUC for imbalanced payroll fraud; **NDCG@10** for resume ranking; **Cohen's Kappa (>= 0.85)** for LLM-as-a-judge.
-  - *Active Learning:* Uncertainty sampling on inferences ($0.45 < p < 0.55$) routed to Labelbox.
+  - *Active Learning:* Uncertainty sampling ($0.45 < p < 0.55$) routed to Labelbox.
 - **HCM Domain (Oracle Fusion):**
   - *Element Entries:* Earnings, Pre-Tax Deductions, Statutory Taxes, Garnishments.
   - *Time & Labor -> Payroll:* Shift differentials, overtime rules, punch validations.
@@ -75,7 +75,6 @@ Recruiter: *"Consider defining success metrics, using labeled data to measure im
   - *Tier 1 (Ingestion):* CDC -> Kafka (4M req/min, `(tenant_id, employee_id)`) -> Delta Lake Bronze.
   - *Tier 2 (Lakehouse):* Presidio PII (<12ms) -> Delta Lake Silver/Gold with Z-Ordering on `(tenant_id, employee_id)` & `mergeSchema=false`.
   - *Tier 3 (Agents & HITL):* LangGraph state machine (`PostgresSaver`) -> AWS Bedrock/Azure OpenAI (ZDR) -> Routing changes trigger HITL interrupt -> S3 WORM audit logs.
-
 
 ---
 
@@ -210,7 +209,7 @@ When presented with a code snippet to review, structure your response as:
 
 ### Emergency Traps & Fail-Safe Quick-Scripts:
 - **Stuck on Edge Case:** Think aloud: *"If `start <= last_end`, `merged[-1][1] = max(last_end, end)` cleanly covers identical boundaries."*
-- **Challenged on Architecture:** *"Great point, Artem. For pure batch that holds. I chose Z-ordering to bound interactive P99 query latency across 38k tenants without S3 metadata throttling."*
+- **Challenged on Architecture:** *"Great point, Artem. For pure batch that holds. I chose Z-ordering to bound interactive P99 query latency across 38k tenants without S3 throttling."*
 - **Asked Unfamiliar Tool:** Frame via first principles: *"I have not deployed that specific tool, but the core distributed systems constraint is X. Here is how I design the boundary..."*
 - **Finished Early (<15 min):** Dry-run 3 edge cases (empty, single, extreme), state $O(N)$ complexity, and ask: *"Would you like me to handle additional edge cases or optimize further?"*
 
@@ -218,9 +217,9 @@ When presented with a code snippet to review, structure your response as:
 
 ## 8. High-Agency Reverse Questions (Part 3)
 1. **To Artem Žukov (Staff Platform):**
-   > *"Artem, as Paylocity scales agentic workflows on LangGraph, how do you handle state machine schema evolution when an in-flight workflow checkpointed in Postgres spans across a deployment that modifies the graph topology or node contracts?"*
+   > *"Artem, one of the biggest platform headaches I ran into on long-running agent workflows was state persistence across deployments, especially when in-flight workflows span a release that updates graph topology or contracts. As Ignite AI expands into multi-step agent tasks, how is your team approaching state evolution and deployment safety?"*
 2. **To Muhtasim Billah (Senior DS):**
-   > *"Muhtasim, in your resume parsing and candidate matching models, what balance have you found between dense vector semantic retrieval versus sparse BM25 token matching for industry-specific certifications (like SHRM-CP or CPA) where semantic embeddings might blur precise keyword requirements?"*
+   > *"Muhtasim, when matching candidates to job specs, pure semantic search often blurs strict hard requirements, like a CPA or SHRM certification, where exact keywords are non-negotiable. In Paylocity's matching models, how do you balance dense semantic retrieval against deterministic keyword filtering?"*
 3. **To Both:**
    > *"What does the collaboration cadence look like between the platform engineering team and the applied data science pods when bringing a new experimental agent capability into production?"*
 
@@ -228,8 +227,7 @@ When presented with a code snippet to review, structure your response as:
 - **Architecture Disagreement:** Evaluated flat vector search vs hybrid RRF (Dense + BM25) at Airbnb. Built prototype on 5,000 queries; hybrid achieved +22% NDCG@10 on domain keywords.
 - **Production OOM Incident:** Ingestion crashed on 40MB uploads. Diagnosed unbounded list; refactored to chunked streaming async generator (`asyncio.Queue(maxsize=100)`), scaling throughput 16x (600 to 10k rows/run) with 0 OOMs.
 
-
 ---
 
 ## 9. Closing Statement (At 59:00)
-> *"Artem, Muhtasim-thank you both for the working session today. I really enjoyed digging into Delta Lake layouts, LangGraph state machines, and resume matching with you. Everything we discussed reinforces how exciting the Ignite AI roadmap is, and how directly my background in Oracle Fusion HCM and Airbnb's AI platform maps to what you're building. Looking forward to the next steps with Emy and the team!"*
+> *"Artem, Muhtasim, thank you both for the working session today. I really enjoyed digging into Delta Lake layouts, agentic state machines, and candidate matching with you. Everything we discussed reinforces how exciting the Ignite AI roadmap is, and how directly my background in Oracle Fusion HCM and Airbnb's AI platform maps to what you're building. Looking forward to the next steps with Emy and the team!"*
