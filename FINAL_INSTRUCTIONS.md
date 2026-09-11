@@ -129,6 +129,38 @@ Keep this mental model top-of-mind:
 > **One-Liner to Drop in the Interview:**  
 > *"Once the baseline logic is locked, my deployment strategy is a **shadow release against mirrored traffic**, followed by a **5% canary rollout on Kubernetes** with automated latency and error-rate rollback alarms before routing 100% of tenant traffic."*
 
+### 5b. The Ignite AI 3-Tier Production Architecture Deep-Dive
+
+When Artem (Staff Platform) or Muhtasim (Senior DS) asks you to design or walk through an end-to-end architecture for Ignite AI, use this 3-tier blueprint:
+
+```
+┌──────────────────────────────────────────────────────────────────────────────────┐
+│                    PAYLOCITY IGNITE AI: 3-TIER PRODUCTION STACK                  │
+├──────────────────────────────────────────────────────────────────────────────────┤
+│ TIER 1: INGESTION & CHANGE DATA CAPTURE (CDC)                                    │
+│  • Source DBs (Postgres/MSSQL) -> Debezium CDC -> Apache Kafka                  │
+│  • Partition Key: (tenant_id, employee_id) -> Guarantees strict in-order events  │
+│  • Ingestion Rate: Up to 4M events/min during bi-weekly payroll crunch            │
+│  • Destination: Delta Lake Bronze (Raw append-only storage on S3/ADLS)           │
+├──────────────────────────────────────────────────────────────────────────────────┤
+│ TIER 2: GOVERNANCE, LAKEHOUSE & FEATURE STORE                                    │
+│  • PII Redaction: In-flight Microsoft Presidio on Triton (<12ms P99 latency)      │
+│  • Schema Enforcement: Delta Lake mergeSchema=false (Zero silent contract drift) │
+│  • Partitioning Strategy: Coarse monthly temporal partitions                     │
+│  • Z-Ordering: Clustered on (tenant_id, employee_id) to eliminate small-file     │
+│    fragmentation across 38,000 tenants and bound interactive query latency       │
+│  • Silver/Gold Tables: Sanitized employee records & pre-aggregated payroll metrics│
+├──────────────────────────────────────────────────────────────────────────────────┤
+│ TIER 3: AGENTIC INFERENCE, HITL & AUDIT TRAIL                                    │
+│  • Orchestration: LangGraph state machines with PostgresSaver checkpointers       │
+│    (Ensures worker pod ephemerality; resume workflows via webhook callbacks)    │
+│  • Foundation Models: AWS Bedrock / Azure OpenAI under Zero Data Retention (ZDR) │
+│  • Human-in-the-Loop (HITL): Direct deposit routing changes within 72h of payroll│
+│    trigger a mandatory manager interrupt before NACHA ACH file transmission     │
+│  • Compliance: SOC 2 Type II audit trail written to S3 Object Lock (WORM storage)│
+└──────────────────────────────────────────────────────────────────────────────────┘
+```
+
 ---
 
 ## 6. Part 1 Live Coding Battle Rules (25 Min: 15m Algo + 10m Snippet Review)
@@ -452,6 +484,37 @@ When Artem or Muhtasim presents a code snippet for review, do not just point at 
 3. **For Both:**
    > *"What does the collaboration cadence look like between the platform engineering team and the applied data science pods when bringing a new experimental agent capability into production?"*
 
+
+### 8b. The 4 Complete STAR+R Behavioral Master Stories
+
+#### Story 1: Resolving a Senior Architecture Disagreement via Proof of Concept
+- **Situation:** At Airbnb, our team was divided on how to implement candidate and knowledge retrieval for the enterprise GenAI platform. One senior engineer advocated for pure dense vector search using OpenAI embeddings on Pinecone, arguing it had higher semantic recall. I was concerned that pure vector search would blur precise keyword matches on domain-specific codes and IDs.
+- **Task:** As Senior ML Platform Engineer, I needed to resolve the technical stalemate objectively without team friction or shipping a degraded search experience.
+- **Action:** Instead of debating in design meetings, I proposed a 48-hour timeboxed proof of concept. I built a side-by-side evaluation harness over 5,000 production queries comparing pure dense embeddings against a Hybrid Retrieval pipeline combining dense embeddings with sparse BM25 token matching fused via Reciprocal Rank Fusion (RRF).
+- **Result:** The hybrid approach delivered a +22% higher NDCG@10 on domain-specific queries and eliminated false positive matches on technical alphanumeric identifiers. The team unanimously adopted the hybrid architecture.
+- **Reflection:** Disagreements among senior engineers should never be decided by seniority or rhetoric; empirical eval harnesses and small prototypes convert subjective arguments into objective engineering decisions.
+
+#### Story 2: Resolving a High-Severity Production OOM Outage under Crunch
+- **Situation:** On the BPI Virtual Analyst platform at Airbnb, business users were uploading massive financial and workforce spreadsheets (up to 40MB, 10,000 rows). During month-end close, our Kubernetes worker pods began thrashing CPU and crashing with Out-Of-Memory (OOM) errors, taking down the ingestion service.
+- **Task:** I needed to eliminate the OOM crashes immediately and scale ingestion throughput without increasing Kubernetes infrastructure costs.
+- **Action:** Profiling the service revealed that Pandas was loading the entire 40MB spreadsheet into memory at once, generating huge in-memory dictionaries and triggering garbage collection lockups. I re-architected the ingestion pipeline into a chunked streaming async generator using `asyncio.Queue(maxsize=100)`. Records were read in 500-row chunks, validated in-flight, and streamed directly to the database worker pool with bounded memory buffers.
+- **Result:** Scaled tabular batch ingestion 16x (from 600 rows to 10,000 rows per run) while reducing peak memory consumption by 85%. Worker pod crashes dropped to zero with zero infrastructure cost expansion.
+- **Reflection:** In high-volume enterprise SaaS, streaming with bounded queues is always superior to batch in-memory accumulation. Designing for memory boundaries up front prevents catastrophic production outages.
+
+#### Story 3: Mission-Critical Regulatory Compliance & Zero Drift (21 CFR Part 11)
+- **Situation:** At Eli Lilly, I worked on the Dose Management Platform for radioactive F-18 imaging agents. The system governed radiopharmaceutical patient dose calculations where an arithmetic error or unauthorized data alteration carried serious patient safety and FDA regulatory consequences.
+- **Task:** Engineer a software platform compliant with FDA 21 CFR Part 11 regulations, ensuring 99.9% uptime, zero authorization drift, and immutable audit logging.
+- **Action:** Implemented strict cryptographically signed audit logs, role-based access control with time-bound elevation, and automated dual-verifier checks on all calculation formulas. All state mutations were logged to immutable WORM storage.
+- **Result:** Maintained 99.9% uptime across clinical sites with zero compliance findings during FDA audits and zero authorization drift incidents.
+- **Reflection:** Enterprise software that touches health or financial data requires treating compliance and auditing as first-class architectural constraints, not afterthoughts.
+
+#### Story 4: High-Throughput Event Streaming at Enterprise Scale
+- **Situation:** At Southwest Airlines, real-time flight operations and crew scheduling generated massive event spikes, reaching 4 million requests per minute during operational disruption events.
+- **Task:** Ensure zero message loss, strict per-user in-order processing, and fault-tolerant recovery under peak load.
+- **Action:** Architected Kafka streaming pipelines with composite partition keys `(tenant_id, user_id)` to guarantee per-entity sequential processing while maintaining high cluster parallelization. Engineered an automated Dead Letter Queue (DLQ) replay service with exponential backoff and jitter to handle transient downstream database lockouts.
+- **Result:** Sustained 4M req/min throughput with sub-second message delivery latency and zero event drops during major weather disruptions.
+- **Reflection:** Partition key design is the single most critical decision in distributed streaming; composite keys ensure sequential integrity while avoiding hot partition bottlenecks.
+
 ---
 
 ## 9. Closing Statement & Prototype Demo Playbook (How to End Strong at 59:00)
@@ -471,3 +534,17 @@ When Artem or Muhtasim presents a code snippet for review, do not just point at 
 
 3. **When wrapping up (At 59:00):**
    > *"Artem, Muhtasim, thank you both for the working session today. I really enjoyed digging into Delta Lake layouts, agentic state machines, and candidate matching with you. Everything we discussed reinforces how exciting the Ignite AI roadmap is, and how directly my background in Oracle Fusion HCM and Airbnb's AI platform maps to what you're building. Looking forward to the next steps with Emy and the team!"*
+
+---
+
+## 10. Paylocity Ignite AI Product Ecosystem & Feature Cheat Sheet
+
+When discussing Paylocity product capabilities with Artem and Muhtasim, ground your answers in their actual product suite:
+
+| Product Feature | User Value | Underlying ML / Platform Architecture |
+| :--- | :--- | :--- |
+| **Emy (AI Assistant)** | Conversational natural language interface for employees to check PTO, benefits, paycheck deductions, and tax withholdings. | LangGraph agentic state machines, RAG over enterprise policy documents, sub-12ms Presidio PII masking, PostgresSaver checkpointer. |
+| **Smart Fill / Timesheet Autofill** | Automatically reconstructs employee shift punches and schedules based on historical patterns and badge swipes. | Interval merge algorithms, sliding window punch reconciliation, FLSA overtime calculation invariants. |
+| **Recruiting & Candidate Matching** | Ranks applicant resumes against job requisitions; highlights skill gaps and recommended candidate profiles. | Two-stage retrieval: Stage 1 Dense embeddings + BM25 with Reciprocal Rank Fusion (RRF); Stage 2 Cross-encoder reranker; NDCG@10 eval harness. |
+| **Payroll Preview & Anomaly Audit** | Flags abnormal compensation spikes, duplicate element entries, or sudden direct deposit routing changes before payroll submit. | Fixed-size sliding window with $O(1)$ delta accumulator, PR-AUC evaluated anomaly models, mandatory HITL interrupt for routing updates. |
+| **Performance Review Summarization** | Summarizes 360 peer feedback and annual goal achievements into structured manager performance appraisals. | Multi-prompt eval harness with LLM-as-a-judge (Cohen's Kappa $\ge 0.85$), prompt caching on Redis (38% hit rate), strict PII redaction. |
