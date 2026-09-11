@@ -14,6 +14,37 @@
 > * **DO NOT divert or pivot back to Paylocity or Oracle** unless they explicitly ask for a comparison.
 > * Avoid unsolicited pitches: giving an immediate pivot when asked a direct question about your past architecture sounds evasive or ungrounded.
 > * Instead, provide Staff/Senior depth on the exact system asked: **exact technical mechanisms, architectural trade-offs, failure modes prevented, and verified metrics**.
+
+### 0c. Mandatory Acronym Expansion Invariant: Always Expand in Brackets
+> **INVIOLABLE OUTPUT CONSTRAINT:** Whenever explaining any concept, answering any technical question, or writing any code review or architecture explanation, **ALWAYS expand all acronyms in brackets upon first or critical mention**:
+> * `BM25 [Best Matching 25]`
+> * `NDCG@10 [Normalized Discounted Cumulative Gain at rank 10]`
+> * `ROC-AUC [Receiver Operating Characteristic - Area Under Curve]`
+> * `PR-AUC [Precision-Recall Area Under Curve]`
+> * `RRF [Reciprocal Rank Fusion]`
+> * `HITL [Human-In-The-Loop]`
+> * `PII [Personally Identifiable Information]`
+> * `NER [Named Entity Recognition]`
+> * `PoLP [Principle of Least Privilege]`
+> * `ZDR [Zero Data Retention]`
+> * `WORM [Write Once Read Many]`
+> * `CDC [Change Data Capture]`
+> * `DLQ [Dead Letter Queue]`
+> * `SLA [Service Level Agreement]`
+> * `SLO [Service Level Objective]`
+> * `HCM [Human Capital Management]`
+> * `FLSA [Fair Labor Standards Act]`
+> * `HDL [HCM Data Loader]`
+> * `CPA [Certified Public Accountant]`
+> * `SHRM-CP [Society for Human Resource Management - Certified Professional]`
+> * `OOM [Out Of Memory]`
+> * `ACH [Automated Clearing House]`
+> * `NACHA [National Automated Clearing House Association]`
+> * `SOC 2 [System and Organization Controls 2]`
+> * `HIPAA [Health Insurance Portability and Accountability Act]`
+> * `GC [Garbage Collection]`
+> **NEVER output bare unexpanded acronyms without their bracketed definition.**
+
 ---
 
 ## 1. T-60 to T-0 Pre-Flight Checklist
@@ -483,7 +514,7 @@ When Artem or Muhtasim presents a code snippet for review, do not just point at 
    * *Why this lands:* Demonstrates Staff-level awareness of production state persistence pain, does not assume their exact framework, and gives him room to discuss their roadmap or current patterns.
 
 2. **For Muhtasim Billah (Senior DS):**
-   > *"Muhtasim, when matching candidates to job specs, pure semantic vector search often blurs strict hard requirements, like a CPA or SHRM certification, where exact keywords are non-negotiable. In Paylocity's matching models, how do you balance dense semantic retrieval against deterministic keyword filtering?"*
+   > *"Muhtasim, when matching candidates to job specs, pure semantic vector search often blurs strict hard requirements, like a CPA [Certified Public Accountant] or SHRM-CP [Society for Human Resource Management - Certified Professional] certification, where exact keywords are non-negotiable. In Paylocity's matching models, how do you balance dense semantic retrieval against deterministic keyword filtering?"*
    * *Why this lands:* Direct trade-off discussion, grounded in HCM credentials (CPA/SHRM), inviting him to talk through his retrieval architecture without sounding like an academic paper.
 
 3. **For Both:**
