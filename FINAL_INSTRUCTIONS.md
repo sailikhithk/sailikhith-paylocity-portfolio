@@ -9,6 +9,11 @@
 - **Muhtasim Billah** (Senior Data Scientist - Austin)
 **Strict Policy:** No AI assistants permitted during the interview (No Copilot, Cursor inline, etc.).
 
+### 0b. Core Communication Invariant: The Strict Direct-Answer Rule
+> **MANDATORY INTERVIEW CONDUCT:** When Artem or Muhtasim asks explicitly about your work at **Airbnb** (e.g. *"How did you build FacadeDriver?"* or *"Tell me about the tabular ingestion OOM"*), **answer strictly and deeply about that Airbnb system**.
+> * **DO NOT divert or pivot back to Paylocity or Oracle** unless they explicitly ask for a comparison.
+> * Avoid unsolicited pitches: giving an immediate pivot when asked a direct question about your past architecture sounds evasive or ungrounded.
+> * Instead, provide Staff/Senior depth on the exact system asked: **exact technical mechanisms, architectural trade-offs, failure modes prevented, and verified metrics**.
 ---
 
 ## 1. T-60 to T-0 Pre-Flight Checklist

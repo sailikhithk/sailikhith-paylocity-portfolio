@@ -4,6 +4,7 @@
 **Interviewers:** Artem Žukov (Staff AI/ML Platform Eng), Muhtasim Billah (Sr Data Scientist)  
 **Format:** 60-Min Technical Working Session · Microsoft Teams · Full Screen Share Mandatory  
 **Policy:** Zero AI assistants during interview (No Copilot / Cursor inline).
+- **Strict Direct-Answer Rule:** When asked explicitly about work at Airbnb (or any past employer), answer strictly about that system. Do NOT divert or pivot to Paylocity or Oracle unless asked. Give deep technical mechanics, architecture decisions, trade-offs, and metrics for that exact system without unsolicited pitches.
 
 ---
 
@@ -14,7 +15,7 @@
   - Built *BPI Virtual Analyst*: Greenfield analytics platform; scaled tabular batch ingestion 16x (from 600 to 10,000 rows/run, 40MB uploads); saved $180k/yr via Redis semantic caching (38% hit rate); 23-version eval harness over 1,690 ground-truth samples.
   - In-flight PII masking: Tuned Microsoft Presidio over 12 HIPAA entities in sub-12ms on CPU.
 - **Eli Lilly (Feb 2024 - Aug 2024):** Sr Software Engineer - Dose Management Platform. FDA 21 CFR Part 11 radiopharmaceutical platform for F-18 imaging agents. 99.9% uptime with zero authorization drift.
-- **Southwest Airlines (Jan 2023 - Jan 2024):** Sr Software Engineer - Backend & Data Platform. Sustained 4M req/min Kafka event streaming with per-user partition keys and automated DLQ replay.
+- **Southwest Airlines (Jan 2023 - Jan 2024):** Sr Software Engineer - Backend & Data Platform. Sustained 4M req/min Kafka event streaming with per-user partition keys and automated DLQ [Dead Letter Queue] replay.
 - **Shell PLC (Jun 2021 - Dec 2022):** Sr Software Engineer - Backend & Data Science. Deep learning temporal autoencoders and LSTMs for continuous sensor anomaly detection.
 - **Oracle (Aug 2017 - Jul 2019):** Software Engineer - ERP Analytics & Data Engineering. Implemented Oracle Fusion Cloud HCM: Global Payroll, Time & Labor, HCM Data Loader (HDL), and Fast Formulas.
 - **Patent:** Indian Patent Office (App: 202541026299, Modular Deep Learning for Transfer & Incremental Learning), published.
@@ -41,18 +42,18 @@
 
 ## 3. Quick-Reference Jargon & Domain Card
 - **Security & Multi-Tenancy:**
-  - *Principle of Least Privilege (PoLP):* Agent tools have read-only policy access; zero general ledger write access.
-  - *Zero Data Retention (ZDR):* Models invoked via AWS Bedrock / Azure OpenAI under signed BAAs with ZDR.
+  - *PoLP [Principle of Least Privilege]:* Agent tools have read-only policy access; zero general ledger write access.
+  - *ZDR [Zero Data Retention]:* Models invoked via AWS Bedrock / Azure OpenAI under signed BAAs with ZDR.
   - *Tenant Bleed Prevention:* Enforce composite partitioning `(tenant_id, document_id)` in vector stores and caches.
-  - *WORM Storage:* Immutable S3 Object Lock for SOC 2 Type II audit trails.
+  - *WORM [Write Once Read Many]:* Immutable S3 Object Lock for SOC 2 Type II audit trails.
 - **Lakehouse & Data Platform (Artem):**
-  - *Delta Lake Layout:* Coarse monthly temporal partitions + **Z-Ordering** on `(tenant_id, employee_id)` to prevent small-file partition explosion across 38,000 tenants.
-  - *LangGraph HITL:* `PostgresSaver` checkpointers ensure **worker ephemerality**; webhook resumes via `Command(resume=payload)`.
-  - *Data Contracts:* Declarative schema enforcement on Delta Lake (`mergeSchema=false`) to eliminate silent contract drift.
+  - *Delta Lake Layout:* Monthly partitions + **Z-Ordering** on `(tenant_id, employee_id)` to prevent small-file explosion across 38,000 tenants.
+  - *LangGraph HITL [Human-In-The-Loop]:* `PostgresSaver` checkpointers ensure **worker ephemerality**; webhook resumes via `Command(resume=payload)`.
+  - *Data Contracts:* Schema enforcement on Delta Lake (`mergeSchema=false`) to eliminate silent drift.
 - **AI & Data Science (Muhtasim):**
-  - *Presidio PII Redaction:* 3-tier pipeline (<1ms regex + 6-8ms ONNX NER on Triton + Redis token cache) -> empirical P99 < 12ms.
-  - *Two-Stage Candidate Matching:* Dense embeddings + BM25 combined via **Reciprocal Rank Fusion (RRF)**, followed by cross-encoder reranking.
-  - *Evaluation Metrics:* **PR-AUC** over ROC-AUC for imbalanced payroll fraud; **NDCG@10** for resume ranking; **Cohen's Kappa (>= 0.85)** for LLM-as-a-judge.
+  - *Presidio PII [Personally Identifiable Information] Redaction:* 3-tier pipeline (<1ms regex + 6-8ms ONNX NER [Named Entity Recognition] on Triton + Redis cache) -> P99 < 12ms.
+  - *Two-Stage Candidate Matching:* Dense embeddings + BM25 combined via **RRF [Reciprocal Rank Fusion]**, followed by cross-encoder reranking.
+  - *Evaluation Metrics:* **PR-AUC** [Precision-Recall Area Under Curve] over ROC-AUC for imbalanced payroll fraud; **NDCG@10** [Normalized Discounted Cumulative Gain] for resume ranking; **Cohen's Kappa (>= 0.85)** for LLM-as-a-judge.
   - *Active Learning:* Uncertainty sampling ($0.45 < p < 0.55$) routed to Labelbox.
 - **HCM Domain (Oracle Fusion):**
   - *Element Entries:* Earnings, Pre-Tax Deductions, Statutory Taxes, Garnishments.
@@ -67,12 +68,12 @@ Recruiter: *"Define success metrics, use labeled data to measure improvements, a
   - Junior: *"Model accuracy is 92%, we're done."*
   - Senior: *"How do we validate against ground truth and roll out to 38,000 tenants without downtime or tenant bleed?"*
 - **The 3 Deployment Gates to Articulate:**
-  1. *Pre-Deployment Validation:* Offline CI/CD eval harnesses over labeled gold datasets (PR-AUC, P99 < 12ms latency SLA).
-  2. *Safe Rollouts (Shadow & Canary):* Shadow release mirrors live traffic silently. Canary rollout routes 5% -> 25% -> 50% -> 100% on Kubernetes/EKS with Prometheus automated rollback if P99 > 50ms or 5xx > 0.1%.
+  1. *Pre-Deployment Validation:* Offline CI/CD eval harnesses over gold datasets (PR-AUC, P99 < 12ms SLA).
+  2. *Safe Rollouts (Shadow & Canary):* Shadow mirrors live traffic. Canary routes 5% -> 25% -> 50% -> 100% on Kubernetes with Prometheus automated rollback if P99 > 50ms or 5xx > 0.1%.
   3. *Data & Schema Contracts:* Delta Lake `mergeSchema=false` + strict Pydantic contracts to prevent silent schema breakage.
-- **Spoken One-Liner:** *"Once baseline logic is locked, my deployment strategy is a shadow release against mirrored traffic, followed by a 5% canary rollout on Kubernetes with automated latency and error-rate rollback alarms before routing 100% of tenant traffic."*
+- **Spoken One-Liner:** *"Once baseline logic is locked, my deployment strategy is a shadow release against mirrored traffic, then a 5% canary on Kubernetes with automated rollback alarms before routing 100% of tenant traffic."*
 - **Ignite AI 3-Tier Production Architecture:**
-  - *Tier 1 (Ingestion):* CDC -> Kafka (4M req/min, `(tenant_id, employee_id)`) -> Delta Lake Bronze.
+  - *Tier 1 (Ingestion):* CDC [Change Data Capture] -> Kafka (4M req/min, `(tenant_id, employee_id)`) -> Delta Lake Bronze.
   - *Tier 2 (Lakehouse):* Presidio PII (<12ms) -> Delta Lake Silver/Gold with Z-Ordering on `(tenant_id, employee_id)` & `mergeSchema=false`.
   - *Tier 3 (Agents & HITL):* LangGraph state machine (`PostgresSaver`) -> AWS Bedrock/Azure OpenAI (ZDR) -> Routing changes trigger HITL interrupt -> S3 WORM audit logs.
 
@@ -194,14 +195,14 @@ When presented with a code snippet to review, structure your response as:
 4. **The Clean Fix:** Provide the typed, production-ready replacement.
 
 ### The Top 8 Paylocity Code Review Traps:
-1. **Mutable Default Arg (`def fn(x, data=[])`):** List evaluated once at module load; persists across requests. **Prevents multi-tenant cache bleed and cross-tenant data leaks.** Fix: `data=None` and `if data is None: data = []`.
-2. **Quadratic Scan (`if x in some_list` in loop):** List scan is $O(N)$, loop becomes $O(N^2)$. At $10^5$ rows, locks worker CPU. **Prevents API gateway 504 timeouts.** Fix: Convert to `set()` for $O(1)$ lookup.
-3. **Float Payroll Math (`tax = gross * 0.0765`):** Binary float representation has IEEE 754 precision drift. **Prevents IRS penny tax audit discrepancies.** Fix: `Decimal("0.0765")`.
-4. **PII in Logs (`logger.info(f"User {u.ssn}")`):** Plaintext SSN or salary logged to stdout. **Prevents SOC 2 Type II audit failures and HIPAA breaches.** Fix: Hash or Presidio mask before emit.
-5. **SQL String Formatting (`cur.execute(f"SELECT ... {id}")`):** Direct f-string interpolation. **Prevents catastrophic SQL injection and data exfiltration.** Fix: Parameterized query `cur.execute("SELECT ... %s", (id,))`.
-6. **Off-by-One Indexing (`range(1, len(arr))`):** Silently skips 0th element. **Prevents dropping initial shift punch or deduction record.** Fix: `range(len(arr))` or `enumerate()`.
-7. **Bare Except (`except: pass`):** Swallows `KeyboardInterrupt`, `MemoryError`, DB timeouts. **Prevents silent pipeline stalls and zombie worker pods.** Fix: `except SpecificException as e:` + log and re-raise.
-8. **Unclosed Resource (`f = open(...)` without context manager):** File handles / DB connections leak on exception. **Prevents file descriptor exhaustion under load.** Fix: `with open(...) as f:`.
+1. **Mutable Default Arg (`def fn(x, data=[])`):** List persists across requests. **Prevents multi-tenant cache bleed.** Fix: `data=None` -> `if data is None: data = []`.
+2. **Quadratic Scan (`if x in some_list` in loop):** $O(N^2)$ at $10^5$ rows locks worker CPU. **Prevents 504 timeouts.** Fix: Convert list to `set()`.
+3. **Float Payroll Math (`tax = gross * 0.0765`):** IEEE 754 precision drift. **Prevents IRS penny tax audit discrepancies.** Fix: `Decimal("0.0765")`.
+4. **PII in Logs (`logger.info(f"User {u.ssn}")`):** Plaintext SSN logged. **Prevents SOC 2/HIPAA breaches.** Fix: Mask via Presidio before emit.
+5. **SQL String Formatting (`cur.execute(f"SELECT ... {id}")`):** Direct f-string SQL injection. **Prevents data exfiltration.** Fix: Parameterized `cur.execute("... %s", (id,))`.
+6. **Off-by-One Indexing (`range(1, len(arr))`):** Skips 0th element. **Prevents dropping initial shift punch.** Fix: `range(len(arr))` or `enumerate()`.
+7. **Bare Except (`except: pass`):** Swallows `MemoryError`/timeouts. **Prevents zombie worker pods.** Fix: `except SpecificException as e:` + log & re-raise.
+8. **Unclosed Resource (`f = open(...)`):** Leaks handles. **Prevents file descriptor exhaustion under load.** Fix: `with open(...) as f:`.
 
 ### Emergency Traps & Fail-Safe Quick-Scripts:
 - **Stuck on Edge Case:** Think aloud: *"If `start <= last_end`, `merged[-1][1] = max(last_end, end)` cleanly covers identical boundaries."*
